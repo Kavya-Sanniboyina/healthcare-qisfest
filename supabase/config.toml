@@ -1,0 +1,4 @@
+project_id = "doibwdfqicxbzxglbinf"
+
+[functions.dhanvantari-chat]
+verify_jwt = false

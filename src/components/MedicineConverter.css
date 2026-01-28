@@ -1,0 +1,916 @@
+/* ==========================================
+   MEDICINE CONVERTER - CUSTOM CSS
+   Ayurvedic Theme with 3D Animations
+   Professional Design for Hackathon
+   ========================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Poppins:wght@300;400;500;600;700&family=Crimson+Text:ital@0;1&display=swap');
+
+:root {
+  /* Ayurvedic Color Palette */
+  --ayurveda-green: #2d5016;
+  --ayurveda-gold: #d4af37;
+  --ayurveda-saffron: #ff6b35;
+  --ayurveda-earth: #8b6f47;
+  --ayurveda-cream: #faf8f3;
+  --ayurveda-light-green: #a8c96e;
+  
+  /* Alert Colors */
+  --severity-mild: #4ade80;
+  --severity-moderate: #f59e0b;
+  --severity-severe: #ef4444;
+  
+  /* Text Colors */
+  --text-primary: #1a1a1a;
+  --text-secondary: #666666;
+  --text-light: #ffffff;
+  
+  /* Shadows */
+  --shadow-soft: 0 4px 20px rgba(45, 80, 22, 0.1);
+  --shadow-medium: 0 8px 32px rgba(45, 80, 22, 0.15);
+  --shadow-deep: 0 16px 48px rgba(45, 80, 22, 0.2);
+}
+
+/* ==========================================
+   GLOBAL STYLES
+   ========================================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  color: var(--text-primary);
+  background: linear-gradient(135deg, var(--ayurveda-cream) 0%, #f5f0e8 100%);
+  min-height: 100vh;
+}
+
+/* ==========================================
+   CONTAINER & LAYOUT
+   ========================================== */
+
+.medicine-converter-container {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  padding: 40px 20px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #faf8f3 0%, #f0e8dc 100%);
+}
+
+.converter-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Ayurvedic Pattern Animations */
+.ayurvedic-pattern-1 {
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+  border-radius: 50%;
+  top: -100px;
+  right: -100px;
+  animation: float 20s ease-in-out infinite;
+}
+
+.ayurvedic-pattern-2 {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(45, 80, 22, 0.08) 0%, transparent 70%);
+  border-radius: 50%;
+  bottom: -50px;
+  left: -50px;
+  animation: float 25s ease-in-out infinite reverse;
+}
+
+/* Glowing Orbs */
+.glowing-orb-1 {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  background: radial-gradient(circle, rgba(255, 107, 53, 0.2) 0%, transparent 70%);
+  border-radius: 50%;
+  top: 50%;
+  right: 10%;
+  animation: pulse-glow 4s ease-in-out infinite;
+  filter: blur(40px);
+}
+
+.glowing-orb-2 {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(168, 201, 110, 0.15) 0%, transparent 70%);
+  border-radius: 50%;
+  bottom: 20%;
+  left: 5%;
+  animation: pulse-glow 5s ease-in-out infinite;
+  filter: blur(50px);
+}
+
+/* Animations */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) translateX(0px);
+  }
+  50% {
+    transform: translateY(30px) translateX(20px);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.1);
+  }
+}
+
+@keyframes slide-in-down {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes rotate-3d {
+  0% {
+    transform: rotateX(0deg) rotateY(0deg);
+  }
+  100% {
+    transform: rotateX(360deg) rotateY(360deg);
+  }
+}
+
+/* ==========================================
+   HEADER SECTION
+   ========================================== */
+
+.converter-content {
+  position: relative;
+  z-index: 1;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.converter-header {
+  text-align: center;
+  margin-bottom: 50px;
+  animation: slide-in-down 0.8s ease-out;
+}
+
+.header-icon {
+  font-size: 60px;
+  margin-bottom: 20px;
+  animation: rotate-3d 20s linear infinite;
+  display: inline-block;
+}
+
+.converter-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 3rem;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--ayurveda-green) 0%, var(--ayurveda-gold) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 15px;
+  letter-spacing: -1px;
+}
+
+.converter-subtitle {
+  font-family: 'Crimson Text', serif;
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* ==========================================
+   SEARCH SECTION
+   ========================================== */
+
+.search-section {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border: 2px solid var(--ayurveda-gold);
+  border-radius: 20px;
+  padding: 40px;
+  margin-bottom: 40px;
+  box-shadow: var(--shadow-deep);
+  animation: slide-in-up 0.8s ease-out 0.2s both;
+}
+
+.search-input-wrapper {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 30px;
+  position: relative;
+}
+
+.search-icon {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--ayurveda-green);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.search-input {
+  flex: 1;
+  padding: 16px 16px 16px 50px;
+  border: 2px solid var(--ayurveda-light-green);
+  border-radius: 15px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+  background: rgba(168, 201, 110, 0.05);
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--ayurveda-green);
+  box-shadow: 0 0 0 4px rgba(45, 80, 22, 0.1);
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.search-button {
+  padding: 16px 40px;
+  background: linear-gradient(135deg, var(--ayurveda-green) 0%, var(--ayurveda-light-green) 100%);
+  color: white;
+  border: none;
+  border-radius: 15px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 20px rgba(45, 80, 22, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.search-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(45, 80, 22, 0.4);
+}
+
+.search-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.search-button.loading {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* ==========================================
+   SEVERITY SELECTOR
+   ========================================== */
+
+.severity-selector {
+  border-top: 2px solid var(--ayurveda-light-green);
+  padding-top: 30px;
+}
+
+.severity-label {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 15px;
+}
+
+.severity-options {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.severity-btn {
+  flex: 1;
+  min-width: 150px;
+  padding: 14px 20px;
+  border: 2px solid #ddd;
+  border-radius: 12px;
+  background: white;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+}
+
+.severity-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.severity-dot.mild {
+  background: var(--severity-mild);
+}
+
+.severity-dot.moderate {
+  background: var(--severity-moderate);
+}
+
+.severity-dot.severe {
+  background: var(--severity-severe);
+}
+
+.severity-btn.mild {
+  border-color: var(--severity-mild);
+}
+
+.severity-btn.mild.active {
+  background: rgba(74, 222, 128, 0.1);
+  border-color: var(--severity-mild);
+  box-shadow: 0 0 0 4px rgba(74, 222, 128, 0.1);
+}
+
+.severity-btn.moderate {
+  border-color: var(--severity-moderate);
+}
+
+.severity-btn.moderate.active {
+  background: rgba(245, 158, 11, 0.1);
+  border-color: var(--severity-moderate);
+  box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.1);
+}
+
+.severity-btn.severe {
+  border-color: var(--severity-severe);
+}
+
+.severity-btn.severe.active {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: var(--severity-severe);
+  box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1);
+}
+
+/* ==========================================
+   RESULTS CONTAINER
+   ========================================== */
+
+.results-container {
+  animation: scale-in 0.6s ease-out;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+/* ==========================================
+   RESULT CARDS
+   ========================================== */
+
+.result-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: var(--shadow-medium);
+  border-left: 6px solid var(--ayurveda-green);
+  transition: all 0.3s ease;
+  animation: slide-in-up 0.6s ease-out;
+}
+
+.result-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-deep);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.card-header h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  color: var(--ayurveda-green);
+  margin: 0;
+}
+
+.card-icon {
+  color: var(--ayurveda-green);
+  flex-shrink: 0;
+}
+
+.card-icon.yellow {
+  color: var(--severity-moderate);
+}
+
+.card-icon.green {
+  color: var(--severity-mild);
+}
+
+.card-icon.red {
+  color: var(--severity-severe);
+}
+
+/* Category Card */
+.category-card {
+  border-top: 6px solid var(--ayurveda-gold);
+  border-left: 6px solid var(--ayurveda-gold);
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.05) 0%, transparent 100%);
+}
+
+.category-card.severity-mild {
+  border-top-color: var(--severity-mild);
+  border-left-color: var(--severity-mild);
+}
+
+.category-card.severity-moderate {
+  border-top-color: var(--severity-moderate);
+  border-left-color: var(--severity-moderate);
+}
+
+.category-card.severity-severe {
+  border-top-color: var(--severity-severe);
+  border-left-color: var(--severity-severe);
+}
+
+.category-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  color: var(--ayurveda-green);
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.medicine-name {
+  font-size: 1rem;
+  color: var(--text-secondary);
+}
+
+/* Uses Card */
+.uses-card {
+  border-left-color: var(--ayurveda-green);
+}
+
+.uses-text {
+  font-family: 'Crimson Text', serif;
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: var(--text-primary);
+  font-style: italic;
+}
+
+/* ==========================================
+   ALTERNATIVES CARDS
+   ========================================== */
+
+.alternatives-card {
+  border-left-color: var(--severity-mild);
+}
+
+.alternatives-card.moderate-level {
+  border-left-color: var(--severity-moderate);
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.05) 0%, transparent 100%);
+}
+
+.alternatives-card.severe-level {
+  border-left-color: var(--severity-severe);
+}
+
+.mild-disclaimer {
+  background: rgba(74, 222, 128, 0.1);
+  border-left: 4px solid var(--severity-mild);
+  padding: 15px 20px;
+  border-radius: 10px;
+  margin-bottom: 25px;
+  color: #166534;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.moderate-disclaimer {
+  background: rgba(245, 158, 11, 0.1);
+  border-left: 4px solid var(--severity-moderate);
+  padding: 15px 20px;
+  border-radius: 10px;
+  margin-bottom: 25px;
+  color: #92400e;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.alternatives-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.alternative-card {
+  background: linear-gradient(135deg, rgba(168, 201, 110, 0.1) 0%, rgba(212, 175, 55, 0.05) 100%);
+  border: 2px solid var(--ayurveda-light-green);
+  border-radius: 15px;
+  padding: 20px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.alternative-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, var(--ayurveda-green) 0%, var(--ayurveda-gold) 100%);
+}
+
+.alternative-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 30px rgba(45, 80, 22, 0.15);
+  border-color: var(--ayurveda-green);
+}
+
+.alt-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.alternative-card h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
+  color: var(--ayurveda-green);
+  margin: 0;
+  font-weight: 700;
+}
+
+.alt-number {
+  background: var(--ayurveda-gold);
+  color: white;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.alternative-card .benefit {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+.alternative-card .usage {
+  font-size: 0.9rem;
+  color: var(--ayurveda-green);
+  background: rgba(212, 175, 55, 0.1);
+  padding: 10px 12px;
+  border-radius: 8px;
+  border-left: 3px solid var(--ayurveda-gold);
+}
+
+/* ==========================================
+   CRITICAL SAFETY CARD
+   ========================================== */
+
+.critical-safety-card {
+  border-left-color: var(--severity-severe);
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.08) 0%, transparent 100%);
+  border: 2px solid var(--severity-severe);
+  border-left: 6px solid var(--severity-severe);
+}
+
+.critical-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 25px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid var(--severity-severe);
+}
+
+.critical-icon {
+  color: var(--severity-severe);
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.critical-header h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  color: var(--severity-severe);
+  margin: 0;
+  font-weight: 900;
+}
+
+.critical-message {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: var(--text-primary);
+}
+
+.critical-message p {
+  margin-bottom: 15px;
+}
+
+.critical-action {
+  background: rgba(239, 68, 68, 0.1);
+  border-left: 4px solid var(--severity-severe);
+  padding: 20px;
+  border-radius: 10px;
+  font-weight: 500;
+  color: var(--severity-severe);
+  margin-top: 20px;
+}
+
+/* ==========================================
+   WARNINGS CARD
+   ========================================== */
+
+.warnings-card {
+  border-left-color: var(--severity-severe);
+}
+
+.warnings-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.warnings-list li {
+  padding: 12px 15px;
+  margin-bottom: 10px;
+  background: rgba(239, 68, 68, 0.08);
+  border-left: 4px solid var(--severity-severe);
+  border-radius: 8px;
+  color: #991b1b;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.warnings-list li:last-child {
+  margin-bottom: 0;
+}
+
+/* ==========================================
+   WELCOME SECTION
+   ========================================== */
+
+.welcome-section {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 50px 40px;
+  text-align: center;
+  box-shadow: var(--shadow-medium);
+  animation: slide-in-up 0.8s ease-out 0.3s both;
+  border: 2px dashed var(--ayurveda-light-green);
+}
+
+.welcome-content {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.welcome-text {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  color: var(--ayurveda-green);
+  margin-bottom: 25px;
+}
+
+.instructions {
+  text-align: left;
+  background: rgba(168, 201, 110, 0.1);
+  padding: 20px 30px;
+  border-radius: 15px;
+  border-left: 4px solid var(--ayurveda-light-green);
+  margin-bottom: 25px;
+  list-style-position: inside;
+}
+
+.instructions li {
+  margin-bottom: 12px;
+  font-size: 1rem;
+  color: var(--text-primary);
+  line-height: 1.6;
+}
+
+.instructions li:last-child {
+  margin-bottom: 0;
+}
+
+.safety-note {
+  font-family: 'Crimson Text', serif;
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  font-style: italic;
+  background: rgba(212, 175, 55, 0.1);
+  padding: 20px;
+  border-radius: 12px;
+  border-left: 4px solid var(--ayurveda-gold);
+}
+
+/* ==========================================
+   NO RESULTS
+   ========================================== */
+
+.no-results {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 60px 40px;
+  text-align: center;
+  box-shadow: var(--shadow-medium);
+  animation: slide-in-up 0.8s ease-out 0.3s both;
+}
+
+.no-results h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  color: var(--ayurveda-green);
+  margin: 20px 0 10px;
+}
+
+.no-results p {
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+
+.helper-text {
+  font-family: 'Crimson Text', serif;
+  font-style: italic;
+  color: var(--text-secondary);
+}
+
+.no-results svg {
+  color: var(--ayurveda-green);
+  opacity: 0.6;
+  margin-bottom: 20px;
+}
+
+/* ==========================================
+   RESPONSIVE DESIGN
+   ========================================== */
+
+@media (max-width: 768px) {
+  .converter-title {
+    font-size: 2rem;
+  }
+
+  .converter-subtitle {
+    font-size: 1rem;
+  }
+
+  .search-section {
+    padding: 25px;
+  }
+
+  .search-input-wrapper {
+    flex-direction: column;
+  }
+
+  .search-button {
+    width: 100%;
+  }
+
+  .severity-options {
+    gap: 10px;
+  }
+
+  .severity-btn {
+    min-width: 120px;
+    padding: 12px 15px;
+    font-size: 0.9rem;
+  }
+
+  .alternatives-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .result-card {
+    padding: 20px;
+  }
+
+  .card-header h2 {
+    font-size: 1.3rem;
+  }
+
+  .critical-header h2 {
+    font-size: 1.4rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .medicine-converter-container {
+    padding: 20px 10px;
+  }
+
+  .converter-header {
+    margin-bottom: 30px;
+  }
+
+  .header-icon {
+    font-size: 40px;
+  }
+
+  .converter-title {
+    font-size: 1.5rem;
+  }
+
+  .converter-subtitle {
+    font-size: 0.95rem;
+  }
+
+  .search-section {
+    padding: 20px 15px;
+    margin-bottom: 25px;
+  }
+
+  .search-input {
+    font-size: 0.9rem;
+    padding: 12px 12px 12px 40px;
+  }
+
+  .search-button {
+    padding: 12px 20px;
+    font-size: 0.9rem;
+  }
+
+  .severity-label {
+    font-size: 1rem;
+  }
+
+  .result-card {
+    padding: 15px;
+  }
+
+  .alternative-card {
+    padding: 15px;
+  }
+}
+
+/* ==========================================
+   PRINT STYLES
+   ========================================== */
+
+@media print {
+  .search-section,
+  .converter-background {
+    display: none;
+  }
+
+  .result-card {
+    page-break-inside: avoid;
+    box-shadow: none;
+    border: 1px solid #ddd;
+  }
+}
