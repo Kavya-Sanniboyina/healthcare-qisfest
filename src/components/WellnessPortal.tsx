@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  ArrowLeft, 
-  User, 
+import {
+  ArrowLeft,
+  User,
   Activity,
   Calendar,
   Target,
@@ -27,23 +27,23 @@ interface DoshaResult {
 }
 
 const doshaTypes = [
-  { 
-    name: 'Vata', 
-    icon: Wind, 
+  {
+    name: 'Vata',
+    icon: Wind,
     color: 'from-blue-400 to-purple-400',
     element: 'Air + Space',
     traits: 'Creative, Quick, Adaptable'
   },
-  { 
-    name: 'Pitta', 
-    icon: Flame, 
+  {
+    name: 'Pitta',
+    icon: Flame,
     color: 'from-orange-400 to-red-400',
     element: 'Fire + Water',
     traits: 'Focused, Determined, Intense'
   },
-  { 
-    name: 'Kapha', 
-    icon: Droplets, 
+  {
+    name: 'Kapha',
+    icon: Droplets,
     color: 'from-green-400 to-teal-400',
     element: 'Earth + Water',
     traits: 'Calm, Steady, Nurturing'
@@ -170,24 +170,23 @@ const WellnessPortal = () => {
                 <p className="text-muted-foreground mb-6 font-sacred italic">
                   "शुद्धि" — Purification of body, mind, and spirit
                 </p>
-                
+
                 {/* Duration Toggle */}
                 <div className="flex gap-4 mb-6">
                   {[30, 90].map((days) => (
                     <button
                       key={days}
                       onClick={() => setProgramDuration(days as 30 | 90)}
-                      className={`flex-1 py-3 rounded-xl font-medium transition-all ${
-                        programDuration === days
-                          ? 'bg-gradient-to-r from-saffron to-sacred-gold text-herbal-dark shadow-lg'
-                          : 'glass-card text-foreground'
-                      }`}
+                      className={`flex-1 py-3 rounded-xl font-medium transition-all ${programDuration === days
+                        ? 'bg-gradient-to-r from-saffron to-sacred-gold text-herbal-dark shadow-lg'
+                        : 'glass-card text-foreground'
+                        }`}
                     >
                       {days}-Day Program
                     </button>
                   ))}
                 </div>
-                
+
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
@@ -218,23 +217,22 @@ const WellnessPortal = () => {
                     Retake Quiz
                   </button>
                 </div>
-                
+
                 <div className="grid grid-cols-3 gap-4 mb-4">
                   {(['vata', 'pitta', 'kapha'] as const).map((dosha) => {
                     const type = doshaTypes.find(d => d.name.toLowerCase() === dosha)!;
                     const isPrimary = doshaResult.primary === dosha;
                     const isSecondary = doshaResult.secondary === dosha;
-                    
+
                     return (
                       <div
                         key={dosha}
-                        className={`p-4 rounded-xl text-center ${
-                          isPrimary
-                            ? 'bg-gradient-to-br from-saffron/20 to-sacred-gold/20 border-2 border-saffron'
-                            : isSecondary
+                        className={`p-4 rounded-xl text-center ${isPrimary
+                          ? 'bg-gradient-to-br from-saffron/20 to-sacred-gold/20 border-2 border-saffron'
+                          : isSecondary
                             ? 'bg-muted/50 border border-primary/30'
                             : 'bg-muted/30'
-                        }`}
+                          }`}
                       >
                         <type.icon className={`w-6 h-6 mx-auto mb-2 ${isPrimary ? 'text-saffron' : 'text-muted-foreground'}`} />
                         <p className="font-display text-xl text-foreground">{doshaResult[dosha]}%</p>
@@ -371,33 +369,19 @@ const WellnessPortal = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-nature">
-      {/* Header */}
-      <motion.header
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="sticky top-0 z-40 glass-card border-b border-border/50"
-      >
-        <div className="container mx-auto px-4 py-4 flex items-center gap-4">
-          <button
-            onClick={() => viewMode === 'home' ? navigate('/') : setViewMode('home')}
-            className="p-2 rounded-full hover:bg-muted transition-colors"
-          >
-            <ArrowLeft className="w-5 h-5 text-foreground" />
-          </button>
-          
+    <div className="max-w-4xl mx-auto space-y-6">
+      {viewMode === 'home' && (
+        <div className="flex items-center justify-between mb-2">
           <div>
-            <h1 className="font-display text-lg text-foreground">Shuddhi Programs</h1>
-            <p className="text-xs text-muted-foreground">Personal Transformation Portal</p>
+            <h1 className="font-display text-2xl text-foreground">Shuddhi Programs</h1>
+            <p className="text-sm text-muted-foreground">Personal Transformation Portal</p>
           </div>
         </div>
-      </motion.header>
+      )}
 
-      <div className="container mx-auto px-4 py-6 max-w-3xl">
-        <AnimatePresence mode="wait">
-          {renderContent()}
-        </AnimatePresence>
-      </div>
+      <AnimatePresence mode="wait">
+        {renderContent()}
+      </AnimatePresence>
     </div>
   );
 };

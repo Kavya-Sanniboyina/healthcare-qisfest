@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
-import { 
-  ArrowLeft, 
+import {
+  ArrowLeft,
   Heart,
   Calendar,
   Moon,
@@ -11,31 +11,31 @@ import {
 import { useNavigate } from 'react-router-dom';
 
 const features = [
-  { 
-    id: 'cycle', 
-    icon: Calendar, 
-    label: 'Cycle Tracking', 
+  {
+    id: 'cycle',
+    icon: Calendar,
+    label: 'Cycle Tracking',
     desc: 'Period prediction & symptom logging',
     color: 'from-pink-400 to-rose-400'
   },
-  { 
-    id: 'pcos', 
-    icon: Flower2, 
-    label: 'PCOS/PCOD Support', 
+  {
+    id: 'pcos',
+    icon: Flower2,
+    label: 'PCOS/PCOD Support',
     desc: 'Natural management protocols',
     color: 'from-purple-400 to-pink-400'
   },
-  { 
-    id: 'pregnancy', 
-    icon: Baby, 
-    label: 'Pregnancy Care', 
+  {
+    id: 'pregnancy',
+    icon: Baby,
+    label: 'Pregnancy Care',
     desc: 'Trimester-wise Ayurvedic guidance',
     color: 'from-amber-400 to-orange-400'
   },
-  { 
-    id: 'menopause', 
-    icon: Moon, 
-    label: 'Menopause Guide', 
+  {
+    id: 'menopause',
+    icon: Moon,
+    label: 'Menopause Guide',
     desc: 'Natural transition support',
     color: 'from-indigo-400 to-purple-400'
   },
@@ -45,29 +45,15 @@ const WomensWellness = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-gradient-nature">
-      {/* Header */}
-      <motion.header
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="sticky top-0 z-40 glass-card border-b border-border/50"
-      >
-        <div className="container mx-auto px-4 py-4 flex items-center gap-4">
-          <button
-            onClick={() => navigate('/')}
-            className="p-2 rounded-full hover:bg-muted transition-colors"
-          >
-            <ArrowLeft className="w-5 h-5 text-foreground" />
-          </button>
-          
-          <div>
-            <h1 className="font-display text-lg text-foreground">Devi Arogya</h1>
-            <p className="text-xs text-muted-foreground">देवी आरोग्य — Women's Wellness Suite</p>
-          </div>
+    <div className="max-w-4xl mx-auto space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="font-display text-2xl text-foreground">Devi Arogya</h1>
+          <p className="text-sm text-muted-foreground">देवी आरोग्य — Women's Wellness Suite</p>
         </div>
-      </motion.header>
+      </div>
 
-      <div className="container mx-auto px-4 py-6 max-w-3xl">
+      <div className="space-y-8">
         {/* Hero */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -139,8 +125,8 @@ const WomensWellness = () => {
             Daily Wellness Tip
           </h3>
           <p className="text-foreground leading-relaxed">
-            🌿 <strong>Morning Ritual:</strong> Start your day with warm water infused with 
-            soaked raisins and a pinch of saffron. This traditional remedy supports hormonal 
+            🌿 <strong>Morning Ritual:</strong> Start your day with warm water infused with
+            soaked raisins and a pinch of saffron. This traditional remedy supports hormonal
             balance and improves blood quality.
           </p>
           <div className="mt-4 flex items-center gap-2">

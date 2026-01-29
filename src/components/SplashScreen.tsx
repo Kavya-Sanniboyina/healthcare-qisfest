@@ -30,10 +30,10 @@ const SplashScreen = ({ onComplete }: SplashScreenProps) => {
         {/* Animated Background Layers */}
         <div className="absolute inset-0 lotus-pattern opacity-30" />
         <div className="absolute inset-0 leaf-pattern" />
-        
+
         {/* Floating Particles */}
         <FloatingParticles />
-        
+
         {/* Sanskrit Mantras */}
         <SanskritMantras />
 
@@ -70,7 +70,7 @@ const SplashScreen = ({ onComplete }: SplashScreenProps) => {
                 animate={{ rotate: 360 }}
                 transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
               />
-              
+
               {/* Inner Lotus Symbol */}
               <div className="absolute inset-0 flex items-center justify-center">
                 <motion.div
@@ -81,7 +81,7 @@ const SplashScreen = ({ onComplete }: SplashScreenProps) => {
                   🪷
                 </motion.div>
               </div>
-              
+
               {/* Glow Effect */}
               <div className="absolute inset-0 rounded-full animate-pulse-glow" />
             </div>
@@ -133,7 +133,7 @@ const SplashScreen = ({ onComplete }: SplashScreenProps) => {
                 onClick={onComplete}
                 className="btn-sacred group"
               >
-                <span className="relative z-10 flex items-center gap-3 text-herbal-dark font-semibold">
+                <span className="relative z-10 flex items-center gap-3 text-primary-foreground font-semibold">
                   <motion.span
                     animate={{ x: [0, 5, 0] }}
                     transition={{ duration: 1.5, repeat: Infinity }}
@@ -148,7 +148,7 @@ const SplashScreen = ({ onComplete }: SplashScreenProps) => {
                     🌿
                   </motion.span>
                 </span>
-                
+
                 {/* Shimmer Effect */}
                 <motion.div
                   className="absolute inset-0 rounded-full"

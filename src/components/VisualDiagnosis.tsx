@@ -78,60 +78,38 @@ const VisualDiagnosis = () => {
   // Show results view (for all diagnosis types)
   if (result && selectedType && ['skin', 'eye', 'tongue', 'nail'].includes(selectedType)) {
     return (
-      <div className="min-h-screen bg-gradient-nature">
-        <motion.header
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="sticky top-0 z-40 glass-card border-b border-border/50"
-        >
-          <div className="container mx-auto px-4 py-4 flex items-center gap-4">
-            <button
-              onClick={() => handleBackFromResults()}
-              className="p-2 rounded-full hover:bg-muted transition-colors"
-            >
-              <ArrowLeft className="w-5 h-5 text-foreground" />
-            </button>
-            <div>
-              <h1 className="font-display text-lg text-foreground">
-                {selectedType.charAt(0).toUpperCase() + selectedType.slice(1)} Analysis Results
-              </h1>
-              <p className="text-xs text-muted-foreground">Ayurvedic Treatment Recommendations</p>
-            </div>
+      <div className="space-y-6">
+        <div className="flex items-center gap-4">
+          <button
+            onClick={() => handleBackFromResults()}
+            className="p-2 rounded-full hover:bg-secondary/50 transition-colors"
+          >
+            <ArrowLeft className="w-5 h-5" />
+          </button>
+          <div>
+            <h1 className="font-display text-2xl text-foreground">
+              {selectedType.charAt(0).toUpperCase() + selectedType.slice(1)} Analysis Results
+            </h1>
+            <p className="text-sm text-muted-foreground">Ayurvedic Treatment Recommendations</p>
           </div>
-        </motion.header>
-
-        <div className="container mx-auto px-4 py-6 max-w-4xl">
-          <SkinAnalysisResults
-            conditions={result.conditions}
-            onClose={handleBackFromResults}
-          />
         </div>
+        <SkinAnalysisResults
+          conditions={result.conditions}
+          onClose={handleBackFromResults}
+        />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-nature">
+    <div className="space-y-6 max-w-5xl mx-auto">
       {/* Header */}
-      <motion.header
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="sticky top-0 z-40 glass-card border-b border-border/50"
-      >
-        <div className="container mx-auto px-4 py-4 flex items-center gap-4">
-          <button
-            onClick={() => navigate('/')}
-            className="p-2 rounded-full hover:bg-muted transition-colors"
-          >
-            <ArrowLeft className="w-5 h-5 text-foreground" />
-          </button>
-
-          <div>
-            <h1 className="font-display text-lg text-foreground">Visual Diagnosis Engine</h1>
-            <p className="text-xs text-muted-foreground">AI-powered Ayurvedic analysis</p>
-          </div>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="font-display text-2xl text-foreground">Visual Diagnosis Engine</h1>
+          <p className="text-sm text-muted-foreground">AI-powered Ayurvedic analysis for Skin, Eyes, Tongue & Nails</p>
         </div>
-      </motion.header>
+      </div>
 
       <div className="container mx-auto px-4 py-6 max-w-3xl">
         {/* Privacy Notice */}
@@ -251,13 +229,12 @@ const VisualDiagnosis = () => {
                       whileTap={{ scale: 0.95 }}
                       onClick={handleCameraClick}
                       disabled={isAnalyzing}
-                      className={`w-full py-3 rounded-lg font-medium flex items-center justify-center gap-2 transition-all ${
-                        isAnalyzing
-                          ? 'bg-muted text-muted-foreground cursor-not-allowed'
-                          : isCameraOpen
-                            ? 'bg-herbal text-white hover:bg-herbal/90'
-                            : 'btn-sacred'
-                      }`}
+                      className={`w-full py-3 rounded-lg font-medium flex items-center justify-center gap-2 transition-all ${isAnalyzing
+                        ? 'bg-muted text-muted-foreground cursor-not-allowed'
+                        : isCameraOpen
+                          ? 'bg-herbal text-white hover:bg-herbal/90'
+                          : 'btn-sacred'
+                        }`}
                     >
                       {isAnalyzing ? (
                         <>
@@ -289,11 +266,10 @@ const VisualDiagnosis = () => {
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         disabled={isAnalyzing}
-                        className={`w-full py-3 rounded-lg font-medium flex items-center justify-center gap-2 transition-all ${
-                          isAnalyzing
-                            ? 'bg-muted text-muted-foreground cursor-not-allowed'
-                            : 'btn-glass'
-                        }`}
+                        className={`w-full py-3 rounded-lg font-medium flex items-center justify-center gap-2 transition-all ${isAnalyzing
+                          ? 'bg-muted text-muted-foreground cursor-not-allowed'
+                          : 'btn-glass'
+                          }`}
                       >
                         <Upload className="w-5 h-5" />
                         Upload Image
@@ -391,13 +367,12 @@ const VisualDiagnosis = () => {
                         whileTap={{ scale: 0.95 }}
                         onClick={handleCameraClick}
                         disabled={isAnalyzing}
-                        className={`w-full py-3 rounded-lg font-medium flex items-center justify-center gap-2 transition-all ${
-                          isAnalyzing
-                            ? 'bg-muted text-muted-foreground cursor-not-allowed'
-                            : isCameraOpen
-                              ? 'bg-herbal text-white hover:bg-herbal/90'
-                              : 'btn-sacred'
-                        }`}
+                        className={`w-full py-3 rounded-lg font-medium flex items-center justify-center gap-2 transition-all ${isAnalyzing
+                          ? 'bg-muted text-muted-foreground cursor-not-allowed'
+                          : isCameraOpen
+                            ? 'bg-herbal text-white hover:bg-herbal/90'
+                            : 'btn-sacred'
+                          }`}
                       >
                         {isAnalyzing ? (
                           <>
@@ -429,11 +404,10 @@ const VisualDiagnosis = () => {
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
                           disabled={isAnalyzing}
-                          className={`w-full py-3 rounded-lg font-medium flex items-center justify-center gap-2 transition-all ${
-                            isAnalyzing
-                              ? 'bg-muted text-muted-foreground cursor-not-allowed'
-                              : 'btn-glass'
-                          }`}
+                          className={`w-full py-3 rounded-lg font-medium flex items-center justify-center gap-2 transition-all ${isAnalyzing
+                            ? 'bg-muted text-muted-foreground cursor-not-allowed'
+                            : 'btn-glass'
+                            }`}
                         >
                           <Upload className="w-5 h-5" />
                           Upload Image

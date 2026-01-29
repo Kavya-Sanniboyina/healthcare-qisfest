@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
-import { 
-  ArrowLeft, 
+import {
+  ArrowLeft,
   Leaf,
   Search,
   Camera,
@@ -21,29 +21,15 @@ const HerbGarden = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-gradient-nature">
-      {/* Header */}
-      <motion.header
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="sticky top-0 z-40 glass-card border-b border-border/50"
-      >
-        <div className="container mx-auto px-4 py-4 flex items-center gap-4">
-          <button
-            onClick={() => navigate('/')}
-            className="p-2 rounded-full hover:bg-muted transition-colors"
-          >
-            <ArrowLeft className="w-5 h-5 text-foreground" />
-          </button>
-          
-          <div>
-            <h1 className="font-display text-lg text-foreground">Herb Garden</h1>
-            <p className="text-xs text-muted-foreground">Interactive 3D Exploration</p>
-          </div>
+    <div className="max-w-4xl mx-auto space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="font-display text-2xl text-foreground">Herb Garden</h1>
+          <p className="text-sm text-muted-foreground">Interactive 3D Exploration & AR Identification</p>
         </div>
-      </motion.header>
+      </div>
 
-      <div className="container mx-auto px-4 py-6 max-w-3xl">
+      <div className="space-y-8">
         {/* 3D Garden Placeholder */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -52,7 +38,7 @@ const HerbGarden = () => {
         >
           <div className="h-64 bg-gradient-to-br from-herbal-dark to-herbal relative flex items-center justify-center">
             <motion.div
-              animate={{ 
+              animate={{
                 rotate: [0, 5, -5, 0],
                 y: [0, -10, 0]
               }}
@@ -134,7 +120,7 @@ const HerbGarden = () => {
           <Leaf className="w-8 h-8 text-herbal mx-auto mb-3" />
           <h4 className="font-display text-lg text-foreground mb-2">Coming Soon</h4>
           <p className="text-sm text-muted-foreground">
-            Full 3D garden with Three.js visualization, AR herb identification, 
+            Full 3D garden with Three.js visualization, AR herb identification,
             and interactive growing guides.
           </p>
         </motion.div>

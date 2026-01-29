@@ -1,9 +1,9 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  ArrowLeft, 
-  Send, 
-  Camera, 
+import {
+  ArrowLeft,
+  Send,
+  Camera,
   Sparkles,
   Volume2,
   Loader2,
@@ -73,8 +73,8 @@ const DhanvantariChat = () => {
   const openCameraForScan = async () => {
     try {
       setIsCameraOpen(true);
-      const stream = await navigator.mediaDevices.getUserMedia({ 
-        video: { facingMode: 'environment' } 
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: 'environment' }
       });
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
@@ -97,63 +97,63 @@ const DhanvantariChat = () => {
   // Capture frame and extract text using OCR
   const captureAndExtractText = async () => {
     if (!videoRef.current || !canvasRef.current) return;
-    
+
     setIsScanning(true);
     try {
       const context = canvasRef.current.getContext('2d');
       if (!context) return;
-      
+
       // Draw video frame to canvas with higher resolution
       canvasRef.current.width = videoRef.current.videoWidth;
       canvasRef.current.height = videoRef.current.videoHeight;
       context.drawImage(videoRef.current, 0, 0);
-      
+
       // Get image data and apply preprocessing
       const imageData = context.getImageData(0, 0, canvasRef.current.width, canvasRef.current.height);
       const data = imageData.data;
-      
+
       // Enhance image: increase contrast and brightness for better OCR
       for (let i = 0; i < data.length; i += 4) {
         // Apply contrast and brightness adjustment
         const brightness = 1.15; // Increase brightness
         const contrast = 1.4;    // Increase contrast
-        
+
         let r = data[i] * contrast * brightness;
         let g = data[i + 1] * contrast * brightness;
         let b = data[i + 2] * contrast * brightness;
-        
+
         // Clamp values
         data[i] = Math.min(255, Math.max(0, r));
         data[i + 1] = Math.min(255, Math.max(0, g));
         data[i + 2] = Math.min(255, Math.max(0, b));
       }
-      
+
       context.putImageData(imageData, 0, 0);
-      
+
       // Convert to high-quality image
       const enhancedImage = canvasRef.current.toDataURL('image/png', 1.0);
-      
+
       // Dynamically import Tesseract with TypeScript suppression
       // @ts-ignore - tesseract.js is installed but TypeScript can't resolve it
       const TesseractModule = await import('tesseract.js');
       const Tesseract = TesseractModule.default || TesseractModule;
-      
+
       // Use Tesseract.js for OCR with enhanced settings
       const result = await Tesseract.recognize(enhancedImage, 'eng+hin', {
         logger: (m: any) => console.log('OCR Progress:', Math.round(m.progress * 100) + '%'),
         tessedit_pageseg_mode: Tesseract.PSM.AUTO,
       });
-      
+
       let extractedText = result.data.text.trim();
-      
+
       // Clean up extracted text
       if (extractedText) {
         // Remove extra whitespace and newlines
         extractedText = extractedText.replace(/\s+/g, ' ').trim();
-        
+
         // Get confidence score
         const confidence = result.data.confidence;
-        
+
         setInput(`📸 Scanned text (${Math.round(confidence)}% confidence):\n\n${extractedText}`);
         closeCameraForScan();
       } else {
@@ -180,83 +180,43 @@ const DhanvantariChat = () => {
     const utterance = new SpeechSynthesisUtterance(content);
     utterance.lang = 'en-IN';
     utterance.rate = 0.9;
-    
+
     utterance.onend = () => setSpeakingMessageId(null);
     utterance.onerror = () => setSpeakingMessageId(null);
-    
+
     setSpeakingMessageId(messageId);
     window.speechSynthesis.speak(utterance);
   };
 
   return (
-    <div className="min-h-screen bg-gradient-nature flex flex-col">
-      {/* Header */}
-      <motion.header
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="sticky top-0 z-40 glass-card border-b border-border/50"
-      >
-        <div className="container mx-auto px-4 md:px-6 py-3 md:py-4">
-          {/* Top Navigation Row */}
-          <div className="flex items-center justify-between gap-4 md:gap-6 mb-3 md:mb-4">
-            <div className="flex items-center gap-3 md:gap-4">
-              <button
-                onClick={() => navigate('/')}
-                className="p-2 rounded-full hover:bg-muted transition-colors shrink-0"
-              >
-                <ArrowLeft className="w-5 h-5 text-foreground" />
-              </button>
-              
-              <div className="flex items-center gap-2 md:gap-3">
-                <motion.div
-                  animate={{ scale: [1, 1.1, 1] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                  className="w-10 h-10 rounded-full bg-gradient-to-br from-saffron to-sacred-gold flex items-center justify-center"
-                >
-                  <span className="text-lg">🪷</span>
-                </motion.div>
-                <div>
-                  <h1 className="font-display text-lg text-foreground">Dhanvantari AI</h1>
-                  <p className="text-xs text-muted-foreground flex items-center gap-1">
-                    <span className="w-2 h-2 rounded-full bg-herbal animate-pulse" />
-                    Online • Natural Healing Guide
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Language Selector - Simple Select */}
-            <select
-              value={selectedLanguage}
-              onChange={(e) => setSelectedLanguage(e.target.value)}
-              className="px-4 md:px-6 py-2.5 md:py-3 rounded-lg glass-card border-2 border-primary bg-gradient-to-r from-saffron/10 to-sacred-gold/10 font-semibold text-sm md:text-base text-foreground cursor-pointer hover:border-primary transition-all shadow-md"
-              style={{ appearance: 'none' }}
-            >
-              {LANGUAGES.map((lang) => (
-                <option key={lang.code} value={lang.code}>
-                  {lang.flag} {lang.name}
-                </option>
-              ))}
-            </select>
+    <div className="h-[calc(100vh-9rem)] flex flex-col">
+      {/* Top Bar with Language Selector */}
+      <div className="flex items-center justify-between gap-4 mb-4 p-4 border-b border-border/50 sticky top-0 bg-background/80 backdrop-blur-md z-10">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-saffron to-sacred-gold flex items-center justify-center">
+            <span className="text-lg">🪷</span>
           </div>
-
-          {/* Mobile Language Selector */}
-          <div className="md:hidden flex items-center gap-3 px-3 py-2.5 bg-muted/30 rounded-lg border border-border/50 mt-2">
-            <Globe className="w-4 h-4 text-primary flex-shrink-0" />
-            <select
-              value={selectedLanguage}
-              onChange={(e) => setSelectedLanguage(e.target.value)}
-              className="flex-1 bg-transparent text-sm font-medium focus:outline-none cursor-pointer"
-            >
-              {LANGUAGES.map((lang) => (
-                <option key={lang.code} value={lang.code}>
-                  {lang.flag} {lang.name}
-                </option>
-              ))}
-            </select>
+          <div>
+            <h1 className="font-display text-lg text-foreground">Dhanvantari AI</h1>
+            <p className="text-xs text-muted-foreground flex items-center gap-1">
+              <span className="w-2 h-2 rounded-full bg-herbal animate-pulse" />
+              Online • Natural Healing Guide
+            </p>
           </div>
         </div>
-      </motion.header>
+
+        <select
+          value={selectedLanguage}
+          onChange={(e) => setSelectedLanguage(e.target.value)}
+          className="px-4 py-2 rounded-lg glass-card border-none bg-secondary/30 text-sm font-medium cursor-pointer hover:bg-secondary/50 transition-colors"
+        >
+          {LANGUAGES.map((lang) => (
+            <option key={lang.code} value={lang.code}>
+              {lang.flag} {lang.name}
+            </option>
+          ))}
+        </select>
+      </div>
 
       {/* Messages */}
       <div className="flex-1 overflow-y-auto px-4 md:px-6 py-6 md:py-8">
@@ -271,11 +231,10 @@ const DhanvantariChat = () => {
                 className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
               >
                 <div
-                  className={`max-w-[85%] md:max-w-[75%] ${
-                    message.role === 'user'
-                      ? 'bg-gradient-to-br from-saffron to-sacred-gold text-herbal-dark rounded-2xl rounded-br-md'
-                      : 'glass-card rounded-2xl rounded-bl-md'
-                  } px-4 md:px-5 py-3 md:py-4 shadow-lg`}
+                  className={`max-w-[85%] md:max-w-[75%] ${message.role === 'user'
+                    ? 'bg-gradient-to-br from-saffron to-sacred-gold text-herbal-dark rounded-2xl rounded-br-md'
+                    : 'glass-card rounded-2xl rounded-bl-md'
+                    } px-4 md:px-5 py-3 md:py-4 shadow-lg`}
                 >
                   {message.role === 'assistant' && (
                     <div className="flex items-center gap-2 mb-2 md:mb-3">
@@ -283,14 +242,13 @@ const DhanvantariChat = () => {
                       <span className="text-xs font-medium text-primary">Dhanvantari</span>
                     </div>
                   )}
-                  <div className={`text-sm leading-relaxed whitespace-pre-wrap ${
-                    message.role === 'user' ? '' : 'text-foreground'
-                  }`}>
+                  <div className={`text-sm leading-relaxed whitespace-pre-wrap ${message.role === 'user' ? '' : 'text-foreground'
+                    }`}>
                     {message.content}
                   </div>
-                  
+
                   {message.role === 'assistant' && !message.id.startsWith('streaming-') && (
-                    <button 
+                    <button
                       onClick={() => handleSpeak(message.id, message.content)}
                       className="mt-3 md:mt-4 flex items-center gap-1 text-xs text-muted-foreground hover:text-primary transition-colors"
                     >
@@ -365,15 +323,15 @@ const DhanvantariChat = () => {
         <div className="container mx-auto max-w-3xl">
           <div className="flex items-center gap-3 md:gap-4">
             <VoiceInputButton onResult={handleVoiceResult} />
-            
-            <button 
+
+            <button
               onClick={() => openCameraForScan()}
               className="p-2.5 md:p-3 rounded-full glass-card hover:border-primary/50 transition-colors shrink-0"
               title="Scan text from camera"
             >
               <Camera className="w-5 h-5 text-foreground" />
             </button>
-            
+
             <div className="flex-1 relative">
               <input
                 type="text"
@@ -385,7 +343,7 @@ const DhanvantariChat = () => {
                 disabled={isLoading}
               />
             </div>
-            
+
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -396,7 +354,7 @@ const DhanvantariChat = () => {
               <Send className="w-5 h-5" />
             </motion.button>
           </div>
-          
+
           <p className="text-xs text-muted-foreground text-center mt-3 md:mt-4">
             🔒 Your conversation is private • Supports 12+ Indian languages • Not a substitute for medical advice
           </p>
