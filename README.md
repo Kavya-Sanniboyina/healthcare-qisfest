@@ -1,73 +1,119 @@
-# Welcome to your Lovable project
+# 🌿 Ayurved - Ancient Wisdom, Modern Wellness
 
-## Project info
+**Ayurved** is a next-generation healthcare platform that bridges the gap between ancient Ayurvedic wisdom and modern technology. Built with a stunning "Neo-Vedic" aesthetic, it leverages AI to provide personalized health insights, medicine identification, and holistic wellness plans.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+![Application Dashboard](docs/screenshots/dashboard_hero.png)
+*(Place your dashboard screenshot here)*
 
-## How can I edit this code?
+---
 
-There are several ways of editing your application.
+## ✨ Key Features
 
-**Use Lovable**
+### 🤖 Dhanvantari AI (Smart Health Assistant)
+A sacred digital guide for natural healing.
+- **Natural Language Chat**: Conversational interface for symptom analysis and remedy suggestions.
+- **Multi-Modal Input**: Support for **Voice Commands** and **Visual Scanning** (OCR).
+- **Multi-Language Support**: Communicates in English, Hindi, Tamil, and other regional languages.
+- **Glassmorphic UI**: Beautiful, transparent interface with specialized specialized top-bar navigation.
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+### 📸 Smart Medicine Scanner
+Instantly identify modern medicines and find their Ayurvedic equivalents.
+- **Dual Mode**: Scan via **Camera** or **Upload Image**.
+- **Instant Analysis**: Identifies medicine names, categories, and uses.
+- **Ayurvedic Alternatives**: Suggests natural herbal remedies for the same ailments.
+- **Visual Feedback**: Real-time scanning overlays and confidence scores.
 
-Changes made via Lovable will be committed automatically to this repo.
+### 👁️ Visual Diagnosis Engine
+AI-powered scanning for physical indicators of health.
+- **Multi-Organ Analysis**: Specialized modes for **Skin**, **Eyes**, **Tongue**, and **Nails**.
+- **Condition Detection**: Identifies potential dosha imbalances and health markers.
+- **Actionable Insights**: Provides immediate Ayurvedic treatment recommendations based on visual analysis.
 
-**Use your preferred IDE**
+### 🧘 Shuddhi Wellness Portal
+A comprehensive suite for personal transformation.
+- **Dosha Quiz**: Interactive assessment to determine your Vata, Pitta, or Kapha constitution.
+- **BMI & Diet Calculator**: Personalized diet charts aligned with your body type.
+- **Progress Tracker**: Monitor your wellness journey with visual graphs.
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### 🌸 Devi Arogya (Women's Wellness)
+Dedicated care, tracking, and support for women's health.
+- **Cycle Tracking**: Menstrual health monitoring with Ayurvedic context.
+- **Specialized Care**: Guides for PCOD/PCOS, Pregnancy, and Menopause.
+- **Holistic Approach**: Diet and lifestyle recommendations tailored for women.
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+### 🌿 Virtual Herb Garden
+Interactive exploration of medicinal plants.
+- **3D/AR Experience**: Visualize herbs in a virtual environment (Placeholder).
+- **Knowledge Base**: Detailed benefits, Sanskrit names, and uses for common Ayurvedic herbs (Tulsi, Ashwagandha, etc.).
 
-Follow these steps:
+---
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+## 🛠️ Technology Stack
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+- **Frontend Framework**: [React](https://react.dev/) + [Vite](https://vitejs.dev/)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/) with Custom "Neo-Vedic" Design System
+- **Animations**: [Framer Motion](https://www.framer.com/motion/)
+- **Icons**: [Lucide React](https://lucide.dev/)
+- **Routing**: [React Router](https://reactrouter.com/)
+- **State Management**: React Hooks & Context API
+- **AI Integration**: Custom Backend Services (Supabase/FastAPI)
 
-# Step 3: Install the necessary dependencies.
-npm i
+---
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+## 🚀 Getting Started
 
-**Edit a file directly in GitHub**
+### Prerequisites
+- Node.js (v18 or higher)
+- npm or yarn
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### Installation
 
-**Use GitHub Codespaces**
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/Kavya-Sanniboyina/healthcare-qisfest.git
+   cd Ayurved
+   ```
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+2. **Install Dependencies**
+   ```bash
+   npm install
+   ```
 
-## What technologies are used for this project?
+3. **Set up Environment Variables**
+   Create a `.env` file in the root directory:
+   ```env
+   VITE_SUPABASE_URL=your_supabase_url
+   VITE_SUPABASE_ANON_KEY=your_supabase_key
+   ```
 
-This project is built with:
+4. **Run the Development Server**
+   ```bash
+   npm run dev
+   ```
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+5. **Build for Production**
+   ```bash
+   npm run build
+   ```
 
-## How can I deploy this project?
+---
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+## 📸 Screenshots
 
-## Can I connect a custom domain to my Lovable project?
+| Page | Description |
+|------|-------------|
+| **Dashboard** | Overview of health metrics and quick access. |
+| **Dhanvantari Chat** | AI chat interface with voice interaction. |
+| **Medicine Scanner** | Camera view scanning a medicine strip. |
+| **Visual Diagnosis** | Results page showing skin analysis. |
 
-Yes, you can!
+*(Please navigate to `docs/screenshots` and add images named `dashboard.png`, `chat.png`, etc.)*
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+---
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+## 🎨 Design Philosophy
+
+The **Neo-Vedic** design system combines:
+- **Sacred Geometry**: Subtle patterns and structures.
+- **Organic Gradients**: Colors inspired by nature (Saffron, Herbal Green, Deep Earth).
+- **Modern Glassmorphism**: Translucent cards and blurs for a futuristic feel.
