@@ -32,10 +32,10 @@ function parseStreamLine(line: string): string | null {
   // V8 optimization: Skip non-data lines early
   if (!line.startsWith('data: ')) return null;
   if (line === 'data: [DONE]') return 'DONE';
-  
+
   const jsonStr = line.slice(6).trim();
   if (!jsonStr) return null;
-  
+
   const parsed = parseStreamJSON(jsonStr);
   return parsed?.choices?.[0]?.delta?.content ?? null;
 }
@@ -92,10 +92,9 @@ export const useDhanvantariChat = (language: string = 'en') => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Accept-Encoding': 'gzip, deflate', // Enable compression for V8
           Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
         },
-        body: JSON.stringify({ 
+        body: JSON.stringify({
           messages: apiMessages,
           language: LANGUAGE_NAMES[language] || language // Send language name to backend
         }),
@@ -103,17 +102,17 @@ export const useDhanvantariChat = (language: string = 'en') => {
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
-        
+
         if (response.status === 429) {
           toast.error('Rate limit exceeded. Please wait a moment before trying again.');
           throw new Error('Rate limit exceeded');
         }
-        
+
         if (response.status === 402) {
           toast.error('AI credits exhausted. Please add credits to continue.');
           throw new Error('Credits exhausted');
         }
-        
+
         throw new Error(errorData.error || 'Failed to get response');
       }
 
@@ -162,15 +161,15 @@ export const useDhanvantariChat = (language: string = 'en') => {
 
           // Clean up line endings
           if (line.endsWith('\r')) line = line.slice(0, -1);
-          
+
           // Parse and extract content
           const result = parseStreamLine(line);
-          
+
           if (result === 'DONE') {
             streamDone = true;
             break;
           }
-          
+
           if (result) {
             assistantContent += result;
             updateAssistantMessage(assistantContent);
@@ -183,7 +182,7 @@ export const useDhanvantariChat = (language: string = 'en') => {
         const lines = textBuffer.split('\n');
         for (const line of lines) {
           if (!line || line.trim() === '') continue;
-          
+
           const result = parseStreamLine(line);
           if (result === 'DONE') continue;
           if (result) {

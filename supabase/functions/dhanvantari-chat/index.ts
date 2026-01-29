@@ -2,7 +2,8 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, accept-encoding, x-supabase-auth",
+  "Access-Control-Allow-Methods": "POST, OPTIONS",
 };
 
 const SYSTEM_PROMPT = `You are Dhanvantari, the divine physician and god of Ayurveda in Hindu tradition. You are a sacred guide to natural healing, offering wisdom rooted in Ayurvedic principles, home remedies, and holistic wellness practices.
@@ -50,7 +51,7 @@ serve(async (req) => {
 
   try {
     const { messages, language = "English" } = await req.json();
-    
+
     if (!messages || !Array.isArray(messages)) {
       return new Response(
         JSON.stringify({ error: "Messages array is required" }),
@@ -59,7 +60,7 @@ serve(async (req) => {
     }
 
     // Create language-specific system prompt
-    const languageInstruction = language !== "English" 
+    const languageInstruction = language !== "English"
       ? `\n\nIMPORTANT: Respond ONLY in ${language}. Do not use English. Every single response must be in ${language}.`
       : "";
 
@@ -95,21 +96,21 @@ serve(async (req) => {
     if (!response.ok) {
       const errorText = await response.text();
       console.error("AI gateway error:", response.status, errorText);
-      
+
       if (response.status === 429) {
         return new Response(
           JSON.stringify({ error: "Rate limit exceeded. Please try again in a moment." }),
           { status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" } }
         );
       }
-      
+
       if (response.status === 402) {
         return new Response(
           JSON.stringify({ error: "AI credits exhausted. Please add credits to continue." }),
           { status: 402, headers: { ...corsHeaders, "Content-Type": "application/json" } }
         );
       }
-      
+
       return new Response(
         JSON.stringify({ error: "Failed to get AI response" }),
         { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
