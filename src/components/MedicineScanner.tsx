@@ -123,205 +123,242 @@ const MedicineScanner = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6 flex-1 min-h-0 overflow-y-auto pb-8 w-full">
+    <div className="w-full space-y-8 flex-1 min-h-0 overflow-y-auto pb-8">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="font-display text-2xl text-foreground">Medicine Scanner</h1>
-          <p className="text-sm text-muted-foreground">Identify medicines and find Ayurvedic alternatives</p>
+          <h1 className="font-display text-3xl text-foreground">Medicine Scanner</h1>
+          <p className="text-muted-foreground">Identify medicines and find Ayurvedic alternatives</p>
         </div>
-        <div className="bg-secondary/30 p-1 rounded-lg flex gap-1">
+        <div className="glass-card p-1 rounded-xl flex gap-1">
           <button
             onClick={() => setActiveTab('camera')}
-            className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${activeTab === 'camera'
+            className={`px-5 py-2.5 rounded-lg text-sm font-medium transition-all flex items-center gap-2 ${activeTab === 'camera'
               ? 'bg-primary text-primary-foreground shadow-sm'
               : 'text-muted-foreground hover:bg-secondary/50'
               }`}
           >
-            <div className="flex items-center gap-2">
-              <Camera size={16} /> Camera
-            </div>
+            <Camera size={18} />
+            <span className="hidden sm:inline">Camera</span>
           </button>
           <button
             onClick={() => setActiveTab('upload')}
-            className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${activeTab === 'upload'
+            className={`px-5 py-2.5 rounded-lg text-sm font-medium transition-all flex items-center gap-2 ${activeTab === 'upload'
               ? 'bg-primary text-primary-foreground shadow-sm'
               : 'text-muted-foreground hover:bg-secondary/50'
               }`}
           >
-            <div className="flex items-center gap-2">
-              <Upload size={16} /> Upload
-            </div>
+            <Upload size={18} />
+            <span className="hidden sm:inline">Upload</span>
           </button>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-        {/* Input Section */}
+      <div className="grid grid-cols-1 xl:grid-cols-12 gap-8 items-start h-full">
+        {/* Input Section - Left Column */}
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
-          className="glass-card p-6 rounded-2xl border border-border/50 relative overflow-hidden min-h-[400px]"
+          className="xl:col-span-5 glass-card p-6 rounded-3xl border border-border/50 relative overflow-hidden min-h-[500px] flex flex-col"
         >
-          <AnimatePresence mode="wait">
-            {activeTab === 'camera' ? (
-              <motion.div
-                key="camera"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="h-full flex flex-col"
-              >
-                {cameraError ? (
-                  <div className="flex flex-col items-center justify-center h-full text-center p-6 text-red-500">
-                    <AlertTriangle size={48} className="mb-4" />
-                    <p>{cameraError}</p>
-                  </div>
-                ) : (
-                  <div className="relative flex-1 bg-black rounded-xl overflow-hidden mb-4 group">
-                    <video
-                      ref={videoRef}
-                      autoPlay
-                      playsInline
-                      className="w-full h-full object-cover absolute inset-0"
-                    />
-                    <canvas ref={canvasRef} style={{ display: 'none' }} />
-                    {/* Scanning Overlay */}
-                    <div className="absolute inset-0 border-2 border-primary/30 m-8 rounded-lg pointer-events-none">
-                      <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-primary"></div>
-                      <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-primary"></div>
-                      <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-primary"></div>
-                      <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-primary"></div>
-                      {isScanning && (
-                        <motion.div
-                          className="absolute left-0 right-0 h-0.5 bg-primary shadow-[0_0_10px_rgba(34,197,94,0.8)]"
-                          animate={{ top: ['0%', '100%', '0%'] }}
-                          transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                        />
-                      )}
+          <div className="flex-1 flex flex-col bg-black/5 rounded-2xl overflow-hidden relative border border-border/10">
+            <AnimatePresence mode="wait">
+              {activeTab === 'camera' ? (
+                <motion.div
+                  key="camera"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="h-full flex flex-col relative"
+                >
+                  {cameraError ? (
+                    <div className="flex flex-col items-center justify-center h-full text-center p-6 text-destructive">
+                      <AlertTriangle size={48} className="mb-4 opacity-80" />
+                      <p className="max-w-xs">{cameraError}</p>
                     </div>
+                  ) : (
+                    <>
+                      <video
+                        ref={videoRef}
+                        autoPlay
+                        playsInline
+                        className="w-full h-full object-cover absolute inset-0"
+                      />
+                      <canvas ref={canvasRef} style={{ display: 'none' }} />
+                      {/* Elegant Scanning Overlay */}
+                      <div className="absolute inset-0 pointer-events-none">
+                        <div className="absolute inset-8 border-2 border-primary/40 rounded-xl">
+                          <div className="absolute top-0 left-0 w-6 h-6 border-t-4 border-l-4 border-primary rounded-tl-lg"></div>
+                          <div className="absolute top-0 right-0 w-6 h-6 border-t-4 border-r-4 border-primary rounded-tr-lg"></div>
+                          <div className="absolute bottom-0 left-0 w-6 h-6 border-b-4 border-l-4 border-primary rounded-bl-lg"></div>
+                          <div className="absolute bottom-0 right-0 w-6 h-6 border-b-4 border-r-4 border-primary rounded-br-lg"></div>
+                        </div>
+                        {isScanning && (
+                          <motion.div
+                            className="absolute left-8 right-8 h-0.5 bg-primary/80 blur-sm top-1/2"
+                            animate={{ top: ['10%', '90%', '10%'] }}
+                            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                          />
+                        )}
+                      </div>
+                    </>
+                  )}
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="upload"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="h-full flex flex-col items-center justify-center p-8 bg-secondary/5"
+                >
+                  <div
+                    className="w-full h-full border-2 border-dashed border-border hover:border-primary/50 rounded-2xl flex flex-col items-center justify-center cursor-pointer transition-all hover:bg-background/50 group"
+                    onClick={() => fileInputRef.current?.click()}
+                  >
+                    <div className="w-20 h-20 rounded-full bg-secondary/30 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                      <Upload size={32} className="text-muted-foreground group-hover:text-primary transition-colors" />
+                    </div>
+                    <p className="font-display text-lg mb-2">Click or Drag Image</p>
+                    <p className="text-sm text-muted-foreground">Supported formats: JPG, PNG</p>
                   </div>
-                )}
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileUpload}
+                    style={{ display: 'none' }}
+                  />
+                </motion.div>
+              )}
+            </AnimatePresence>
 
+            {/* Action Bar Overlay */}
+            <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent">
+              {activeTab === 'camera' && (
                 <button
                   onClick={captureAndScan}
                   disabled={isScanning || !!cameraError}
-                  className="btn-sacred w-full py-3 flex items-center justify-center gap-2"
+                  className="btn-sacred w-full py-4 text-lg font-bold shadow-xl"
                 >
-                  {isScanning ? <Loader2 className="animate-spin" /> : <Camera />}
-                  {isScanning ? 'Analyzing...' : 'Capture & Identify'}
+                  {isScanning ? (
+                    <div className="flex items-center gap-2">
+                      <Loader2 className="animate-spin" /> Analyzing...
+                    </div>
+                  ) : 'Capture & Identify'}
                 </button>
+              )}
+              {activeTab === 'upload' && isScanning && (
+                <div className="w-full py-4 bg-background/80 backdrop-blur rounded-xl flex items-center justify-center gap-3 font-medium text-foreground">
+                  <Loader2 className="animate-spin text-primary" /> Processing upload...
+                </div>
+              )}
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Results Section - Right Column */}
+        <div className="xl:col-span-7 h-full">
+          <AnimatePresence mode="wait">
+            {!scanResult ? (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                className="glass-card p-12 rounded-3xl flex flex-col items-center justify-center text-center h-full min-h-[500px] border border-dashed border-border/60 bg-secondary/5"
+              >
+                <div className="w-32 h-32 rounded-full bg-gradient-to-br from-primary/10 to-sacred-gold/10 flex items-center justify-center mb-8 animate-pulse-slow">
+                  <Sparkles className="w-12 h-12 text-primary/50" />
+                </div>
+                <h3 className="font-display text-3xl text-foreground mb-4">Start Your Analysis</h3>
+                <p className="text-lg text-muted-foreground max-w-md leading-relaxed">
+                  Point your camera at any medicine strip, bottle, or prescription to instantly identify it and discover safe Ayurvedic alternatives.
+                </p>
               </motion.div>
             ) : (
               <motion.div
-                key="upload"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="h-full flex flex-col items-center justify-center"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                className="space-y-6"
               >
-                <div
-                  className="w-full h-64 border-2 border-dashed border-border rounded-xl flex flex-col items-center justify-center cursor-pointer hover:bg-secondary/20 transition-colors"
-                  onClick={() => fileInputRef.current?.click()}
-                >
-                  <Upload size={48} className="text-muted-foreground mb-4" />
-                  <p className="font-medium">Click or Drag & Drop Image</p>
-                  <p className="text-xs text-muted-foreground mt-2">Support JPG, PNG</p>
-                </div>
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  accept="image/*"
-                  onChange={handleFileUpload}
-                  style={{ display: 'none' }}
-                />
-                {isScanning && (
-                  <div className="mt-4 flex items-center gap-2 text-primary">
-                    <Loader2 className="animate-spin" /> Processing image...
+                {/* Main Result Card */}
+                <div className="glass-card p-8 rounded-3xl border-l-[6px] border-primary relative overflow-hidden group hover:shadow-lg transition-shadow">
+                  <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
+                    <Leaf className="w-32 h-32 text-primary rotate-12" />
                   </div>
-                )}
+
+                  <div className="relative z-10">
+                    <div className="flex items-start justify-between mb-6">
+                      <div>
+                        <span className="text-xs font-bold uppercase tracking-widest text-primary mb-2 block">Detected Medicine</span>
+                        <h2 className="font-display text-4xl text-foreground flex items-center gap-3">
+                          {scanResult.response.medicine_name || 'Unknown'}
+                          {scanResult.response.confidence > 0.7 && <CheckCircle className="w-8 h-8 text-green-500" />}
+                        </h2>
+                        <p className="text-lg text-muted-foreground mt-1">{scanResult.response.category || 'Category Unidentified'}</p>
+                      </div>
+                      <div className={`flex flex-col items-center justify-center w-16 h-16 rounded-2xl ${scanResult.response.confidence > 0.8 ? 'bg-green-500/10 text-green-500' : 'bg-yellow-500/10 text-yellow-500'}`}>
+                        <span className="text-xl font-bold">{Math.round((scanResult.response.confidence || 0) * 100)}%</span>
+                        <span className="text-[10px] uppercase font-bold">Match</span>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="p-4 bg-background/50 rounded-xl border border-border/50">
+                        <span className="text-xs text-muted-foreground uppercase tracking-wider font-bold mb-1 block">Primary Usage</span>
+                        <p className="font-medium text-foreground">{scanResult.response.uses || 'Information not available'}</p>
+                      </div>
+                      <div className="p-4 bg-background/50 rounded-xl border border-border/50">
+                        <span className="text-xs text-muted-foreground uppercase tracking-wider font-bold mb-1 block">Safety Profile</span>
+                        <p className="font-medium text-foreground">Consult physician before use</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Alternatives List */}
+                <div className="glass-card p-8 rounded-3xl">
+                  <h3 className="font-display text-2xl text-foreground mb-6 flex items-center gap-3">
+                    <Leaf className="w-6 h-6 text-herbal" />
+                    Natural Ayurvedic Alternatives
+                  </h3>
+
+                  {scanResult.response.ayurvedic_remedies && scanResult.response.ayurvedic_remedies.length > 0 ? (
+                    <div className="grid grid-cols-1 gap-4">
+                      {scanResult.response.ayurvedic_remedies.map((alt, i) => (
+                        <motion.div
+                          key={i}
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: i * 0.1 }}
+                          className="p-5 rounded-2xl bg-gradient-to-r from-herbal/5 to-transparent border border-herbal/10 hover:border-herbal/30 transition-all flex gap-4 group"
+                        >
+                          <div className="w-12 h-12 rounded-xl bg-herbal/10 flex items-center justify-center text-xl shadow-sm text-herbal font-display font-medium group-hover:bg-herbal group-hover:text-white transition-colors shrink-0">
+                            {i + 1}
+                          </div>
+                          <div>
+                            <h4 className="text-xl font-bold text-foreground mb-1">{alt.name}</h4>
+                            <p className="text-muted-foreground">{alt.usage}</p>
+                          </div>
+                        </motion.div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="p-8 text-center bg-secondary/20 rounded-2xl">
+                      <p className="text-muted-foreground">No specific alternatives found in database for this item.</p>
+                    </div>
+                  )}
+                </div>
+
+                <button
+                  onClick={clearResult}
+                  className="w-full py-4 rounded-xl border-2 border-dashed border-border text-muted-foreground font-medium hover:border-primary hover:text-primary transition-all uppercase tracking-widest text-sm"
+                >
+                  Scan Another Medicine
+                </button>
               </motion.div>
             )}
           </AnimatePresence>
-        </motion.div>
-
-        {/* Results Section */}
-        <div className="space-y-6">
-          {!scanResult ? (
-            <div className="glass-card p-8 rounded-2xl flex flex-col items-center justify-center text-center h-full min-h-[400px] opacity-70">
-              <Sparkles className="w-16 h-16 text-primary/30 mb-4" />
-              <h3 className="text-xl font-bold mb-2">Ready to Scan</h3>
-              <p className="text-muted-foreground max-w-xs">
-                Point your camera at any medicine strip or bottle to instantly get details and Ayurvedic alternatives.
-              </p>
-            </div>
-          ) : (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="space-y-6"
-            >
-              {/* Status Card */}
-              <div className="glass-card p-6 rounded-2xl border-l-4 border-primary">
-                <div className="flex justify-between items-start mb-4">
-                  <div>
-                    <h2 className="text-2xl font-bold flex items-center gap-2">
-                      {scanResult.response.medicine_name || 'Unknown Medicine'}
-                      {scanResult.response.confidence > 0.7 && <CheckCircle className="w-5 h-5 text-green-500" />}
-                    </h2>
-                    <p className="text-sm text-muted-foreground">{scanResult.response.category || 'Category Unknown'}</p>
-                  </div>
-                  <div className="text-right">
-                    <span className={`text-xs font-bold px-2 py-1 rounded-full ${scanResult.response.confidence > 0.8 ? 'bg-green-500/10 text-green-500' : 'bg-yellow-500/10 text-yellow-500'
-                      }`}>
-                      {Math.round((scanResult.response.confidence || 0) * 100)}% Match
-                    </span>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4 mt-4">
-                  <div className="p-3 bg-secondary/20 rounded-lg">
-                    <span className="text-xs text-muted-foreground block mb-1">Uses</span>
-                    <p className="text-sm font-medium">{scanResult.response.uses || 'N/A'}</p>
-                  </div>
-                  {/* Add more fields if available */}
-                </div>
-              </div>
-
-              {/* Ayurvedic Alternatives */}
-              <div className="glass-card p-6 rounded-2xl bg-gradient-to-br from-herbal/10 to-transparent">
-                <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
-                  <Leaf className="w-5 h-5 text-herbal" />
-                  Natural Alternatives
-                </h3>
-
-                {scanResult.response.ayurvedic_remedies && scanResult.response.ayurvedic_remedies.length > 0 ? (
-                  <div className="space-y-4">
-                    {scanResult.response.ayurvedic_remedies.slice(0, 3).map((alt, i) => (
-                      <div key={i} className="flex gap-3 pb-3 border-b border-border/50 last:border-0">
-                        <div className="w-8 h-8 rounded-full bg-herbal/20 flex items-center justify-center text-herbal font-bold shrink-0">
-                          {i + 1}
-                        </div>
-                        <div>
-                          <h4 className="font-bold">{alt.name}</h4>
-                          <p className="text-sm text-muted-foreground">{alt.usage}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <p className="text-sm text-muted-foreground italic">No specific alternatives found.</p>
-                )}
-              </div>
-
-              <button
-                onClick={clearResult}
-                className="w-full py-3 text-muted-foreground hover:text-foreground transition-colors text-sm"
-              >
-                Scan Another Medicine
-              </button>
-            </motion.div>
-          )}
         </div>
       </div>
     </div>

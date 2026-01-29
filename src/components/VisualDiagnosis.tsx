@@ -10,6 +10,7 @@ import {
   StopCircle,
   RotateCcw,
   CheckCircle,
+  Sparkles
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useSkinDiagnosis } from '../hooks/useSkinDiagnosis';
@@ -102,229 +103,161 @@ const VisualDiagnosis = () => {
   }
 
   return (
-    <div className="space-y-6 max-w-5xl mx-auto">
+    <div className="w-full space-y-8 flex-1 min-h-0 overflow-y-auto pb-8">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="font-display text-2xl text-foreground">Visual Diagnosis Engine</h1>
-          <p className="text-sm text-muted-foreground">AI-powered Ayurvedic analysis for Skin, Eyes, Tongue & Nails</p>
+          <h1 className="font-display text-3xl text-foreground">Visual Diagnosis Engine</h1>
+          <p className="text-muted-foreground">AI-powered Ayurvedic analysis for Skin, Eyes, Tongue & Nails</p>
         </div>
       </div>
 
-      <div className="container mx-auto px-4 py-6 max-w-3xl">
-        {/* Privacy Notice */}
+      <div className="flex flex-col gap-8">
+        {/* Analysis Category Selector */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="glass-card p-4 rounded-2xl mb-8 flex items-center gap-3 border border-herbal/30"
+          className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4"
         >
-          <Shield className="w-8 h-8 text-herbal" />
-          <div>
-            <h4 className="font-medium text-foreground">Private processing</h4>
-            <p className="text-sm text-muted-foreground">
-              Analysis runs via your configured backend. Do not upload sensitive images.
-            </p>
-          </div>
+          {analysisTypes.map((type, i) => (
+            <motion.button
+              key={type.id}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: i * 0.05 }}
+              whileHover={{ scale: 1.02, y: -2 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => setSelectedType(type.id)}
+              className={`
+                    relative p-4 rounded-2xl text-left transition-all border
+                    ${selectedType === type.id
+                  ? 'bg-primary text-primary-foreground border-primary shadow-lg shadow-primary/20'
+                  : 'glass-card hover:bg-white/50 border-transparent hover:border-primary/20'
+                }
+                  `}
+            >
+              <span className="text-3xl mb-3 block filter drop-shadow-sm">{type.icon}</span>
+              <h4 className={`font-bold mb-1 ${selectedType === type.id ? 'text-primary-foreground' : 'text-foreground'}`}>
+                {type.label}
+              </h4>
+              <p className={`text-xs ${selectedType === type.id ? 'text-primary-foreground/80' : 'text-muted-foreground'}`}>
+                {type.desc}
+              </p>
+
+              {selectedType === type.id && (
+                <motion.div
+                  layoutId="active-ring"
+                  className="absolute inset-0 border-2 border-primary rounded-2xl"
+                  transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                />
+              )}
+            </motion.button>
+          ))}
         </motion.div>
 
-        {/* Analysis Types Grid */}
-        {!selectedType && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="mb-8"
-          >
-            <h3 className="font-display text-lg text-foreground mb-4">Select Analysis Type</h3>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-              {analysisTypes.map((type, i) => (
-                <motion.button
-                  key={type.id}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.2 + i * 0.05 }}
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={() => setSelectedType(type.id)}
-                  className="glass-card-hover p-5 rounded-2xl text-left transition-all hover:border-herbal/50"
-                >
-                  <span className="text-3xl mb-3 block">{type.icon}</span>
-                  <h4 className="font-medium text-foreground mb-1">{type.label}</h4>
-                  <p className="text-xs text-muted-foreground">{type.desc}</p>
-                </motion.button>
-              ))}
-            </div>
-          </motion.div>
-        )}
-
-        {/* Camera & Upload Section */}
-        <AnimatePresence>
-          {selectedType === 'skin' && (
+        {/* Main Content Area */}
+        <AnimatePresence mode="wait">
+          {!selectedType ? (
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 20 }}
-              className="mb-8"
+              key="empty"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="grid grid-cols-1 lg:grid-cols-3 gap-8"
             >
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="font-display text-lg text-foreground">Skin Analysis</h3>
-                {isCameraOpen && (
-                  <button
-                    onClick={() => {
-                      closeCamera();
-                      setSelectedType(null);
-                    }}
-                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                  >
-                    Close Camera
-                  </button>
-                )}
+              {/* Welcome / Info Card */}
+              <div className="lg:col-span-2 glass-card p-8 rounded-3xl relative overflow-hidden min-h-[400px] flex flex-col justify-center">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none" />
+                <div className="relative z-10">
+                  <h2 className="font-display text-3xl mb-4">Holistic Visual Assessment</h2>
+                  <p className="text-lg text-muted-foreground mb-8 max-w-xl">
+                    Our advanced AI analyzes physical markers from your skin, eyes, tongue, and nails to determine your Dosha imbalance (Vikriti) and suggest personalized Ayurvedic remedies.
+                  </p>
+
+                  <div className="flex flex-wrap gap-4">
+                    <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-secondary/30 text-sm font-medium">
+                      <Shield className="w-4 h-4 text-herbal" />
+                      <span>Private & Secure</span>
+                    </div>
+                    <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-secondary/30 text-sm font-medium">
+                      <Sparkles className="w-4 h-4 text-sacred-gold" />
+                      <span>AI Diagnostics</span>
+                    </div>
+                  </div>
+                </div>
               </div>
 
-              <div className="glass-card p-8 rounded-2xl">
-                <div className="flex flex-col items-center gap-6">
-                  {/* Video or Camera Placeholder */}
-                  <div className="w-full max-w-md aspect-square rounded-2xl border-2 border-herbal/30 overflow-hidden bg-black relative">
-                    {isCameraOpen ? (
-                      <>
-                        <video
-                          ref={videoRef}
-                          autoPlay
-                          playsInline
-                          className="w-full h-full object-cover"
-                        />
-                        <canvas ref={canvasRef} className="hidden" />
-                        {isAnalyzing && (
-                          <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-                            <div className="text-center">
-                              <Loader className="w-8 h-8 text-herbal animate-spin mx-auto mb-2" />
-                              <p className="text-xs text-white">Analyzing...</p>
-                            </div>
-                          </div>
-                        )}
-                      </>
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center flex-col gap-3">
-                        <Camera className="w-16 h-16 text-herbal/50" />
-                        <p className="text-sm text-muted-foreground">Ready to capture</p>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Error Message */}
-                  {error && (
-                    <motion.div
-                      initial={{ opacity: 0, y: -10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="w-full bg-destructive/10 border border-destructive/30 rounded-lg p-3"
-                    >
-                      <p className="text-sm text-destructive">{error}</p>
-                    </motion.div>
-                  )}
-
-                  {/* Controls */}
-                  <div className="flex flex-col w-full gap-3">
-                    <motion.button
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      onClick={handleCameraClick}
-                      disabled={isAnalyzing}
-                      className={`w-full py-3 rounded-lg font-medium flex items-center justify-center gap-2 transition-all ${isAnalyzing
-                        ? 'bg-muted text-muted-foreground cursor-not-allowed'
-                        : isCameraOpen
-                          ? 'bg-herbal text-white hover:bg-herbal/90'
-                          : 'btn-sacred'
-                        }`}
-                    >
-                      {isAnalyzing ? (
-                        <>
-                          <Loader className="w-5 h-5 animate-spin" />
-                          Analyzing...
-                        </>
-                      ) : isCameraOpen ? (
-                        <>
-                          <CheckCircle className="w-5 h-5" />
-                          Capture & Analyze
-                        </>
-                      ) : (
-                        <>
-                          <Camera className="w-5 h-5" />
-                          Open Camera
-                        </>
-                      )}
-                    </motion.button>
-
-                    <div className="relative">
-                      <input
-                        type="file"
-                        accept="image/*"
-                        onChange={handleFileUpload}
-                        disabled={isAnalyzing}
-                        className="absolute inset-0 opacity-0 cursor-pointer disabled:cursor-not-allowed"
-                      />
-                      <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        disabled={isAnalyzing}
-                        className={`w-full py-3 rounded-lg font-medium flex items-center justify-center gap-2 transition-all ${isAnalyzing
-                          ? 'bg-muted text-muted-foreground cursor-not-allowed'
-                          : 'btn-glass'
-                          }`}
-                      >
-                        <Upload className="w-5 h-5" />
-                        Upload Image
-                      </motion.button>
+              {/* Quick Stats / Info */}
+              <div className="glass-card p-8 rounded-3xl flex flex-col gap-6">
+                <h3 className="font-bold text-lg border-b border-border/50 pb-4">What We Analyze</h3>
+                <div className="space-y-4">
+                  {[
+                    { label: 'Skin Texture & Acne', icon: '🧖‍♀️' },
+                    { label: 'Tongue Coating', icon: '👅' },
+                    { label: 'Eye Redness/Clarity', icon: '👁️' },
+                    { label: 'Nail Ridges & Shape', icon: '💅' },
+                  ].map((item) => (
+                    <div key={item.label} className="flex items-center gap-3">
+                      <span className="text-xl bg-secondary/20 p-2 rounded-lg">{item.icon}</span>
+                      <span className="font-medium text-foreground">{item.label}</span>
                     </div>
+                  ))}
+                </div>
 
-                    {isCameraOpen && (
-                      <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        onClick={() => {
-                          closeCamera();
-                          setSelectedType(null);
-                        }}
-                        disabled={isAnalyzing}
-                        className="w-full py-3 rounded-lg font-medium flex items-center justify-center gap-2 bg-muted text-muted-foreground hover:bg-muted/80 transition-all disabled:cursor-not-allowed"
-                      >
-                        <StopCircle className="w-5 h-5" />
-                        Close Camera
-                      </motion.button>
-                    )}
+                <div className="mt-auto p-4 bg-destructive/5 rounded-xl border border-destructive/10">
+                  <div className="flex gap-2">
+                    <AlertTriangle className="w-5 h-5 text-destructive shrink-0" />
+                    <p className="text-xs text-muted-foreground leading-relaxed">
+                      <strong>Disclaimer:</strong> This tool is for wellness purposes only and does not provide medical diagnosis.
+                    </p>
                   </div>
-
-                  <p className="text-xs text-muted-foreground text-center">
-                    📸 Position your skin clearly in good lighting for accurate analysis
-                  </p>
                 </div>
               </div>
             </motion.div>
-          )}
-        </AnimatePresence>
+          ) : (
+            <motion.div
+              key="active-stage"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="w-full"
+            >
+              {/* Dynamic Stage based on Type */}
+              {selectedType === 'medicine' ? (
+                <div className="glass-card p-12 rounded-3xl text-center flex flex-col items-center justify-center min-h-[400px]">
+                  <div className="w-24 h-24 rounded-full bg-primary/10 flex items-center justify-center mb-6">
+                    <span className="text-5xl">💊</span>
+                  </div>
+                  <h2 className="font-display text-3xl mb-4">Switching to Medicine Scanner</h2>
+                  <p className="text-muted-foreground mb-8 max-w-md">
+                    For detailed medicine packaging analysis, please use our dedicated scanner module.
+                  </p>
+                  <button
+                    onClick={() => navigate('/converter')}
+                    className="btn-sacred px-8 py-3 text-lg flex items-center gap-2"
+                  >
+                    Launch Medicine Scanner <ArrowLeft className="w-4 h-4 rotate-180" />
+                  </button>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                  {/* Camera Feed / Input Area */}
+                  <div className="glass-card p-6 md:p-8 rounded-3xl min-h-[500px] flex flex-col">
+                    <div className="flex items-center justify-between mb-6">
+                      <h3 className="font-display text-2xl">
+                        {analysisTypes.find(t => t.id === selectedType)?.label}
+                      </h3>
+                      {isCameraOpen && (
+                        <button
+                          onClick={() => { closeCamera(); setSelectedType(null); }}
+                          className="p-2 hover:bg-secondary/50 rounded-full transition-colors"
+                        >
+                          <StopCircle className="w-6 h-6 text-destructive" />
+                        </button>
+                      )}
+                    </div>
 
-        {/* Supported types (eye/tongue/nail use same flow as skin) */}
-        {selectedType && selectedType !== 'skin' && ['eye', 'tongue', 'nail'].includes(selectedType) && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="glass-card p-8 rounded-2xl text-center mb-8"
-          >
-            <h3 className="font-display text-lg text-foreground mb-2">
-              {selectedType.charAt(0).toUpperCase() + selectedType.slice(1)} Analysis
-            </h3>
-            <p className="text-muted-foreground mb-6">
-              Capture or upload an image for analysis and Ayurvedic remedy suggestions.
-            </p>
-            {/* Reuse the skin capture/upload UI */}
-            <AnimatePresence>
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="mb-2"
-              >
-                <div className="glass-card p-8 rounded-2xl">
-                  <div className="flex flex-col items-center gap-6">
-                    <div className="w-full max-w-md aspect-square rounded-2xl border-2 border-herbal/30 overflow-hidden bg-black relative">
+                    <div className="flex-1 rounded-2xl overflow-hidden bg-black/95 relative border border-border/10 shadow-inner group">
                       {isCameraOpen ? (
                         <>
                           <video
@@ -334,177 +267,112 @@ const VisualDiagnosis = () => {
                             className="w-full h-full object-cover"
                           />
                           <canvas ref={canvasRef} className="hidden" />
+                          {/* Face/Target Overlay Guideline */}
+                          <div className="absolute inset-0 pointer-events-none flex items-center justify-center opacity-50">
+                            <div className="w-64 h-80 border-2 border-dashed border-white/50 rounded-[40%]"></div>
+                          </div>
+
                           {isAnalyzing && (
-                            <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-                              <div className="text-center">
-                                <Loader className="w-8 h-8 text-herbal animate-spin mx-auto mb-2" />
-                                <p className="text-xs text-white">Analyzing...</p>
-                              </div>
+                            <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center backdrop-blur-sm z-20">
+                              <Loader className="w-12 h-12 text-herbal animate-spin mb-4" />
+                              <p className="text-lg font-medium text-white tracking-wide">Analyzing Biomarkers...</p>
                             </div>
                           )}
                         </>
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center flex-col gap-3">
-                          <Camera className="w-16 h-16 text-herbal/50" />
-                          <p className="text-sm text-muted-foreground">Ready to capture</p>
+                        <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6 bg-gradient-to-b from-gray-900 to-black">
+                          <div className="w-20 h-20 rounded-full bg-white/5 flex items-center justify-center mb-4">
+                            <Camera className="w-10 h-10 text-white/50" />
+                          </div>
+                          <h4 className="text-white font-medium text-lg mb-2">Ready to Capture</h4>
+                          <p className="text-white/40 text-sm max-w-xs">
+                            Ensure good lighting and position your {selectedType} clearly within the frame.
+                          </p>
                         </div>
                       )}
                     </div>
 
-                    {error && (
-                      <motion.div
-                        initial={{ opacity: 0, y: -10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="w-full bg-destructive/10 border border-destructive/30 rounded-lg p-3"
-                      >
-                        <p className="text-sm text-destructive">{error}</p>
-                      </motion.div>
-                    )}
-
-                    <div className="flex flex-col w-full gap-3">
-                      <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
+                    {/* Controls Toolbar */}
+                    <div className="mt-6 flex flex-col gap-3">
+                      <button
                         onClick={handleCameraClick}
                         disabled={isAnalyzing}
-                        className={`w-full py-3 rounded-lg font-medium flex items-center justify-center gap-2 transition-all ${isAnalyzing
-                          ? 'bg-muted text-muted-foreground cursor-not-allowed'
-                          : isCameraOpen
-                            ? 'bg-herbal text-white hover:bg-herbal/90'
-                            : 'btn-sacred'
+                        className={`w-full py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-3 transition-all shadow-lg ${isCameraOpen
+                          ? 'bg-white text-black hover:bg-gray-100'
+                          : 'btn-sacred'
                           }`}
                       >
                         {isAnalyzing ? (
-                          <>
-                            <Loader className="w-5 h-5 animate-spin" />
-                            Analyzing...
-                          </>
+                          'Processing...'
                         ) : isCameraOpen ? (
-                          <>
-                            <CheckCircle className="w-5 h-5" />
-                            Capture & Analyze
-                          </>
+                          <><div className="w-6 h-6 rounded-full border-4 border-current"></div> Capture Photo</>
                         ) : (
-                          <>
-                            <Camera className="w-5 h-5" />
-                            Open Camera
-                          </>
+                          <><Camera className="w-6 h-6" /> Open Camera</>
                         )}
-                      </motion.button>
+                      </button>
 
-                      <div className="relative">
-                        <input
-                          type="file"
-                          accept="image/*"
-                          onChange={handleFileUpload}
-                          disabled={isAnalyzing}
-                          className="absolute inset-0 opacity-0 cursor-pointer disabled:cursor-not-allowed"
-                        />
-                        <motion.button
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
-                          disabled={isAnalyzing}
-                          className={`w-full py-3 rounded-lg font-medium flex items-center justify-center gap-2 transition-all ${isAnalyzing
-                            ? 'bg-muted text-muted-foreground cursor-not-allowed'
-                            : 'btn-glass'
-                            }`}
+                      <div className="flex gap-3">
+                        <div className="relative flex-1">
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={handleFileUpload}
+                            disabled={isAnalyzing}
+                            className="absolute inset-0 opacity-0 cursor-pointer"
+                          />
+                          <button className="w-full py-3 rounded-xl bg-secondary/30 hover:bg-secondary/50 font-medium text-sm flex items-center justify-center gap-2 transition-colors">
+                            <Upload className="w-4 h-4" /> Upload Image
+                          </button>
+                        </div>
+                        <button
+                          onClick={() => { closeCamera(); setSelectedType(null); }}
+                          className="px-6 py-3 rounded-xl bg-secondary/30 hover:bg-secondary/50 font-medium text-sm transition-colors text-muted-foreground hover:text-foreground"
                         >
-                          <Upload className="w-5 h-5" />
-                          Upload Image
-                        </motion.button>
+                          Back
+                        </button>
                       </div>
+                    </div>
+                  </div>
 
-                      {isCameraOpen && (
-                        <motion.button
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
-                          onClick={() => {
-                            closeCamera();
-                            setSelectedType(null);
-                          }}
-                          disabled={isAnalyzing}
-                          className="w-full py-3 rounded-lg font-medium flex items-center justify-center gap-2 bg-muted text-muted-foreground hover:bg-muted/80 transition-all disabled:cursor-not-allowed"
-                        >
-                          <StopCircle className="w-5 h-5" />
-                          Close Camera
-                        </motion.button>
-                      )}
+                  {/* Instructions / Context Column */}
+                  <div className="flex flex-col gap-6">
+                    <div className="glass-card p-8 rounded-3xl flex-1">
+                      <h3 className="font-bold text-xl mb-6">How to take a good photo</h3>
+                      <ul className="space-y-4">
+                        {[
+                          'Find a well-lit area, preferably natural light.',
+                          'Ensure the area is clean and free of excessive makeup.',
+                          'Center the area within the guide frame.',
+                          'Keep the camera steady to avoid blur.',
+                          'Avoid strong shadows or glare.'
+                        ].map((step, i) => (
+                          <li key={i} className="flex gap-4 items-start">
+                            <span className="w-6 h-6 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">
+                              {i + 1}
+                            </span>
+                            <span className="text-muted-foreground">{step}</span>
+                          </li>
+                        ))}
+                      </ul>
+
+                      <div className="mt-8 p-4 bg-primary/5 rounded-xl border border-primary/10">
+                        <div className="flex items-start gap-3">
+                          <Shield className="w-5 h-5 text-herbal shrink-0 mt-0.5" />
+                          <div>
+                            <h4 className="font-bold text-sm text-foreground">Privacy First</h4>
+                            <p className="text-xs text-muted-foreground">
+                              Your health data is processed locally where possible and transmitted securely.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </motion.div>
-            </AnimatePresence>
-          </motion.div>
-        )}
-
-        {/* Medicine goes to dedicated screen */}
-        {selectedType === 'medicine' && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="glass-card p-8 rounded-2xl text-center mb-8"
-          >
-            <h3 className="font-display text-lg text-foreground mb-2">Medicine Scanner</h3>
-            <p className="text-muted-foreground mb-6">
-              Use the Medicine Scanner screen for package detection and Ayurvedic alternatives.
-            </p>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => navigate('/converter')}
-              className="btn-sacred mx-auto flex items-center gap-2"
-            >
-              Go to Medicine Scanner
-            </motion.button>
-          </motion.div>
-        )}
-
-        {/* What We Analyze */}
-        {!selectedType && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="glass-card p-6 rounded-2xl mb-8"
-          >
-            <h3 className="font-display text-lg text-foreground mb-4">Skin Analysis Identifies</h3>
-            <div className="grid grid-cols-2 gap-4">
-              {[
-                'Acne & Breakouts',
-                'Dryness & Texture',
-                'Oiliness Issues',
-                'Inflammation',
-                'Pigmentation',
-                'Premature Aging',
-              ].map((item, i) => (
-                <div key={item} className="flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full bg-herbal" />
-                  <span className="text-sm text-foreground">{item}</span>
-                </div>
-              ))}
-            </div>
-          </motion.div>
-        )}
-
-        {/* Disclaimer */}
-        {!selectedType && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4 }}
-            className="flex items-start gap-3 p-4 rounded-xl bg-destructive/10 border border-destructive/20"
-          >
-            <AlertTriangle className="w-5 h-5 text-destructive flex-shrink-0 mt-0.5" />
-            <div>
-              <h4 className="font-medium text-foreground mb-1">Important Disclaimer</h4>
-              <p className="text-sm text-muted-foreground">
-                This tool provides general wellness observations with Ayurvedic remedies only. It
-                does NOT diagnose conditions. For any concerning symptoms, consult a qualified
-                Ayurvedic Vaidya or medical doctor immediately.
-              </p>
-            </div>
-          </motion.div>
-        )}
+              )}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );
