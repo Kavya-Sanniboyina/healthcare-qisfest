@@ -13,6 +13,8 @@ import WellnessPortal from "./components/WellnessPortal";
 import WomensWellness from "./components/WomensWellness";
 import HerbGarden from "./components/HerbGarden";
 import MedicineScanner from "./components/MedicineScanner";
+import Profile from "./pages/Profile";
+import Settings from "./pages/Settings";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import DashboardLayout from "./components/DashboardLayout";
@@ -67,6 +69,8 @@ const App = () => {
                   <Route path="/wellness" element={<WellnessPortal />} />
                   <Route path="/women" element={<WomensWellness />} />
                   <Route path="/herbs" element={<HerbGarden />} />
+                  <Route path="/profile" element={<Profile />} />
+                  <Route path="/settings" element={<Settings />} />
                 </Route>
               </Route>
 

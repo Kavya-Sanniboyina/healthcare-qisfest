@@ -1,6 +1,6 @@
-import { useRef } from 'react';
-import { NavLink } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { useRef, useState, useEffect } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
     Home,
     MessageCircle,
@@ -10,12 +10,19 @@ import {
     Heart,
     Leaf,
     LogOut,
-    Settings
+    Settings,
+    X
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 
-const Sidebar = () => {
+interface SidebarProps {
+    isOpen?: boolean;
+    onClose?: () => void;
+}
+
+const Sidebar = ({ isOpen = false, onClose }: SidebarProps) => {
     const { logout } = useAuth();
+    const navigate = useNavigate();
 
     const menuItems = [
         { icon: Home, label: 'Overview', path: '/app' },
@@ -27,18 +34,50 @@ const Sidebar = () => {
         { icon: Leaf, label: 'Herb Garden', path: '/herbs' },
     ];
 
+    const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsDesktop(window.innerWidth >= 1024);
+        };
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    const sidebarVariants = {
+        desktop: { x: 0, opacity: 1, display: 'flex' },
+        mobileClosed: { x: '-100%', opacity: 0, display: 'none' },
+        mobileOpen: { x: 0, opacity: 1, display: 'flex' }
+    };
+
     return (
         <motion.aside
-            initial={{ x: -100 }}
-            animate={{ x: 0 }}
-            className="hidden lg:flex flex-col w-64 h-screen fixed left-0 top-0 z-50 bg-background/95 backdrop-blur-xl border-r border-border/50"
+            initial={false}
+            animate={isDesktop ? "desktop" : (isOpen ? "mobileOpen" : "mobileClosed")}
+            variants={sidebarVariants}
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            className={`
+                flex-col w-64 h-screen fixed left-0 top-0 z-50 
+                bg-background/95 backdrop-blur-xl border-r border-border/50
+                lg:flex lg:translate-x-0 lg:opacity-100
+                ${isOpen ? 'flex' : 'hidden lg:flex'}
+            `}
         >
             {/* Logo Area */}
-            <div className="h-16 flex items-center gap-2 px-6 border-b border-border/50">
-                <span className="text-2xl animate-pulse-glow">🪷</span>
-                <span className="font-display text-lg font-bold tracking-wide text-foreground">
-                    DHANVANTARI
-                </span>
+            <div className="h-16 flex items-center justify-between px-6 border-b border-border/50">
+                <div className="flex items-center gap-2">
+                    <span className="text-2xl animate-pulse-glow">🪷</span>
+                    <span className="font-display text-lg font-bold tracking-wide text-foreground">
+                        DHANVANTARI
+                    </span>
+                </div>
+                {/* Close Button (Mobile Only) */}
+                <button
+                    onClick={onClose}
+                    className="lg:hidden p-1 text-muted-foreground hover:text-foreground"
+                >
+                    <X className="w-5 h-5" />
+                </button>
             </div>
 
             {/* Navigation */}
@@ -47,6 +86,7 @@ const Sidebar = () => {
                     <NavLink
                         key={item.path}
                         to={item.path}
+                        onClick={() => onClose && onClose()} // Close on mobile when clicked
                         end={item.path === '/app'} // Only match exact /app route for Home
                         className={({ isActive }) => `
               flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 group
@@ -67,7 +107,10 @@ const Sidebar = () => {
 
             {/* Footer / User Controls */}
             <div className="p-4 border-t border-border/50 bg-secondary/10">
-                <button className="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg text-muted-foreground hover:bg-secondary/20 hover:text-foreground transition-all text-sm mb-1">
+                <button
+                    onClick={() => navigate('/settings')}
+                    className="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg text-muted-foreground hover:bg-secondary/20 hover:text-foreground transition-all text-sm mb-1"
+                >
                     <Settings className="w-4 h-4" />
                     <span>Settings</span>
                 </button>

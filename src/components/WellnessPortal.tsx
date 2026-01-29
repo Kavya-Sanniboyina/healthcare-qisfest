@@ -158,21 +158,21 @@ const WellnessPortal = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="space-y-6"
+            className="space-y-8"
           >
             {/* Hero Card */}
-            <div className="glass-card p-6 rounded-2xl overflow-hidden relative">
+            <div className="glass-card p-8 rounded-2xl overflow-hidden relative">
               <div className="absolute inset-0 bg-gradient-to-br from-saffron/20 to-herbal/20" />
-              <div className="relative z-10">
-                <h2 className="font-display text-2xl text-foreground mb-2">
+              <div className="relative z-10 max-w-2xl">
+                <h2 className="font-display text-3xl text-foreground mb-2">
                   Begin Your Transformation
                 </h2>
-                <p className="text-muted-foreground mb-6 font-sacred italic">
+                <p className="text-muted-foreground mb-8 font-sacred italic text-lg">
                   "शुद्धि" — Purification of body, mind, and spirit
                 </p>
 
                 {/* Duration Toggle */}
-                <div className="flex gap-4 mb-6">
+                <div className="flex gap-4 mb-8 max-w-md">
                   {[30, 90].map((days) => (
                     <button
                       key={days}
@@ -191,34 +191,34 @@ const WellnessPortal = () => {
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={handleStartProgram}
-                  className="w-full btn-sacred"
+                  className="px-8 py-3 btn-sacred text-lg"
                 >
                   {doshaResult ? 'Continue Program' : 'Start Free Assessment'}
                 </motion.button>
               </div>
             </div>
 
-            {/* Dosha Result */}
+            {/* Dosha Result - Full Width if present */}
             {doshaResult && (
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="glass-card p-6 rounded-2xl"
+                className="glass-card p-8 rounded-2xl"
               >
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="font-display text-lg text-foreground flex items-center gap-2">
-                    <Sparkles className="w-5 h-5 text-sacred-gold" />
+                <div className="flex items-center justify-between mb-6">
+                  <h3 className="font-display text-2xl text-foreground flex items-center gap-2">
+                    <Sparkles className="w-6 h-6 text-sacred-gold" />
                     Your Dosha Profile
                   </h3>
                   <button
                     onClick={() => setViewMode('quiz')}
-                    className="text-sm text-primary hover:underline"
+                    className="text-primary hover:underline"
                   >
                     Retake Quiz
                   </button>
                 </div>
 
-                <div className="grid grid-cols-3 gap-4 mb-4">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
                   {(['vata', 'pitta', 'kapha'] as const).map((dosha) => {
                     const type = doshaTypes.find(d => d.name.toLowerCase() === dosha)!;
                     const isPrimary = doshaResult.primary === dosha;
@@ -227,70 +227,78 @@ const WellnessPortal = () => {
                     return (
                       <div
                         key={dosha}
-                        className={`p-4 rounded-xl text-center ${isPrimary
+                        className={`p-6 rounded-2xl text-center ${isPrimary
                           ? 'bg-gradient-to-br from-saffron/20 to-sacred-gold/20 border-2 border-saffron'
                           : isSecondary
                             ? 'bg-muted/50 border border-primary/30'
                             : 'bg-muted/30'
                           }`}
                       >
-                        <type.icon className={`w-6 h-6 mx-auto mb-2 ${isPrimary ? 'text-saffron' : 'text-muted-foreground'}`} />
-                        <p className="font-display text-xl text-foreground">{doshaResult[dosha]}%</p>
-                        <p className="text-xs text-muted-foreground capitalize">{dosha}</p>
+                        <type.icon className={`w-8 h-8 mx-auto mb-3 ${isPrimary ? 'text-saffron' : 'text-muted-foreground'}`} />
+                        <p className="font-display text-2xl text-foreground">{doshaResult[dosha]}%</p>
+                        <p className="text-sm text-muted-foreground capitalize mb-2">{dosha}</p>
                         {isPrimary && (
-                          <span className="text-xs text-saffron font-medium">Primary</span>
+                          <span className="text-xs bg-saffron/10 text-saffron font-bold px-3 py-1 rounded-full uppercase tracking-wider">Primary</span>
                         )}
                         {isSecondary && (
-                          <span className="text-xs text-primary font-medium">Secondary</span>
+                          <span className="text-xs bg-primary/10 text-primary font-bold px-3 py-1 rounded-full uppercase tracking-wider">Secondary</span>
                         )}
                       </div>
                     );
                   })}
                 </div>
 
-                <button
-                  onClick={() => setViewMode('diet')}
-                  className="w-full py-3 rounded-xl glass-card hover:border-primary/50 transition-colors flex items-center justify-center gap-2"
-                >
-                  View Your Personalized Diet Chart
-                  <ChevronRight className="w-4 h-4" />
-                </button>
+                <div className="flex justify-end">
+                  <button
+                    onClick={() => setViewMode('diet')}
+                    className="py-3 px-6 rounded-xl glass-card hover:border-primary/50 transition-colors flex items-center gap-2"
+                  >
+                    View Your Personalized Diet Chart
+                    <ChevronRight className="w-4 h-4" />
+                  </button>
+                </div>
               </motion.div>
             )}
 
-            {/* Action Cards */}
-            <div className="grid grid-cols-2 gap-4">
+            {/* Action Cards Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => setViewMode('quiz')}
-                className="glass-card-hover p-5 rounded-2xl text-left"
+                className="glass-card-hover p-6 rounded-2xl text-left flex flex-col items-start h-full"
               >
-                <Wind className="w-8 h-8 text-primary mb-3" />
-                <h4 className="font-display text-foreground mb-1">Dosha Quiz</h4>
-                <p className="text-xs text-muted-foreground">Discover your constitution</p>
+                <div className="p-3 bg-primary/10 rounded-xl mb-4 text-primary">
+                  <Wind className="w-6 h-6" />
+                </div>
+                <h4 className="font-display text-lg text-foreground mb-1">Dosha Quiz</h4>
+                <p className="text-sm text-muted-foreground mt-auto">Discover your constitution</p>
               </motion.button>
 
               <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => setViewMode('bmi')}
-                className="glass-card-hover p-5 rounded-2xl text-left"
+                className="glass-card-hover p-6 rounded-2xl text-left flex flex-col items-start h-full"
               >
-                <Activity className="w-8 h-8 text-herbal mb-3" />
-                <h4 className="font-display text-foreground mb-1">BMI Calculator</h4>
-                <p className="text-xs text-muted-foreground">Check your body metrics</p>
+                <div className="p-3 bg-herbal/10 rounded-xl mb-4 text-herbal">
+                  <Activity className="w-6 h-6" />
+                </div>
+                <h4 className="font-display text-lg text-foreground mb-1">BMI Calculator</h4>
+                <p className="text-sm text-muted-foreground mt-auto">Check your body metrics</p>
               </motion.button>
 
               <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => doshaResult ? setViewMode('diet') : setViewMode('quiz')}
-                className="glass-card-hover p-5 rounded-2xl text-left"
+                className="glass-card-hover p-6 rounded-2xl text-left flex flex-col items-start h-full"
               >
-                <Calendar className="w-8 h-8 text-saffron mb-3" />
-                <h4 className="font-display text-foreground mb-1">Diet Chart</h4>
-                <p className="text-xs text-muted-foreground">
+                <div className="p-3 bg-saffron/10 rounded-xl mb-4 text-saffron">
+                  <Calendar className="w-6 h-6" />
+                </div>
+                <h4 className="font-display text-lg text-foreground mb-1">Diet Chart</h4>
+                <p className="text-sm text-muted-foreground mt-auto">
                   {doshaResult ? 'View your plan' : 'Complete quiz first'}
                 </p>
               </motion.button>
@@ -299,82 +307,52 @@ const WellnessPortal = () => {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => setViewMode('progress')}
-                className="glass-card-hover p-5 rounded-2xl text-left"
+                className="glass-card-hover p-6 rounded-2xl text-left flex flex-col items-start h-full"
               >
-                <Target className="w-8 h-8 text-lotus mb-3" />
-                <h4 className="font-display text-foreground mb-1">Progress</h4>
-                <p className="text-xs text-muted-foreground">Track your journey</p>
+                <div className="p-3 bg-lotus/10 rounded-xl mb-4 text-lotus">
+                  <Target className="w-6 h-6" />
+                </div>
+                <h4 className="font-display text-lg text-foreground mb-1">Progress</h4>
+                <p className="text-sm text-muted-foreground mt-auto">Track your journey</p>
               </motion.button>
             </div>
 
-            {/* Dosha Discovery (if no result) */}
+            {/* Dosha Discovery Info (Show if no result) */}
             {!doshaResult && (
-              <div>
-                <h3 className="font-display text-lg text-foreground mb-4">Discover Your Dosha</h3>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="space-y-4">
+                <h3 className="font-display text-xl text-foreground">Discover Your Dosha</h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   {doshaTypes.map((dosha, i) => (
                     <motion.div
                       key={dosha.name}
                       initial={{ opacity: 0, scale: 0.9 }}
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ delay: 0.2 + i * 0.1 }}
-                      className="glass-card-hover p-5 rounded-2xl text-center"
+                      className="glass-card-hover p-6 rounded-2xl text-center"
                     >
-                      <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${dosha.color} flex items-center justify-center mx-auto mb-4`}>
-                        <dosha.icon className="w-8 h-8 text-white" />
+                      <div className={`w-20 h-20 rounded-2xl bg-gradient-to-br ${dosha.color} flex items-center justify-center mx-auto mb-6 shadow-lg`}>
+                        <dosha.icon className="w-10 h-10 text-white" />
                       </div>
-                      <h4 className="font-display text-xl text-foreground mb-1">{dosha.name}</h4>
-                      <p className="text-xs text-muted-foreground mb-2">{dosha.element}</p>
-                      <p className="text-sm text-foreground">{dosha.traits}</p>
+                      <h4 className="font-display text-2xl text-foreground mb-2">{dosha.name}</h4>
+                      <p className="text-sm font-medium text-primary mb-3">{dosha.element}</p>
+                      <p className="text-muted-foreground leading-relaxed">{dosha.traits}</p>
                     </motion.div>
                   ))}
                 </div>
               </div>
             )}
-
-            {/* Program Features */}
-            <div className="glass-card p-6 rounded-2xl">
-              <h3 className="font-display text-lg text-foreground mb-4">What's Included</h3>
-              <div className="grid grid-cols-2 gap-4">
-                {[
-                  { icon: Activity, label: 'BMI & Body Analysis' },
-                  { icon: Calendar, label: 'Daily Schedule' },
-                  { icon: Target, label: 'Goal Tracking' },
-                  { icon: User, label: 'Progress Photos' },
-                ].map((feature) => (
-                  <div key={feature.label} className="flex items-center gap-3 p-3 rounded-xl bg-muted/50">
-                    <feature.icon className="w-5 h-5 text-primary" />
-                    <span className="text-sm font-medium text-foreground">{feature.label}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Quick Stats */}
-            <div className="grid grid-cols-3 gap-4">
-              {[
-                { value: '10K+', label: 'Transformations' },
-                { value: '4.9★', label: 'User Rating' },
-                { value: '100%', label: 'Natural' },
-              ].map((stat) => (
-                <div key={stat.label} className="glass-card p-4 rounded-xl text-center">
-                  <p className="font-display text-2xl text-primary">{stat.value}</p>
-                  <p className="text-xs text-muted-foreground">{stat.label}</p>
-                </div>
-              ))}
-            </div>
           </motion.div>
         );
     }
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
+    <div className="w-full space-y-6">
       {viewMode === 'home' && (
         <div className="flex items-center justify-between mb-2">
           <div>
-            <h1 className="font-display text-2xl text-foreground">Shuddhi Programs</h1>
-            <p className="text-sm text-muted-foreground">Personal Transformation Portal</p>
+            <h1 className="font-display text-3xl text-foreground">Shuddhi Programs</h1>
+            <p className="text-muted-foreground">Personal Transformation Portal</p>
           </div>
         </div>
       )}
@@ -385,5 +363,14 @@ const WellnessPortal = () => {
     </div>
   );
 };
+
+// ... Update renderContent 'home' case to use full width grids
+/* 
+    Updated Home View Structure:
+    - Hero Card (unchanged but wider)
+    - Action Cards: grid-cols-1 md:grid-cols-2 lg:grid-cols-4
+    - Dosha Discovery: grid-cols-3
+    - Program Features: grid-cols-4
+*/
 
 export default WellnessPortal;

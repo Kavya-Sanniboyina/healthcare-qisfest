@@ -123,7 +123,7 @@ const MedicineScanner = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6 h-[calc(100vh-9rem)] overflow-y-auto pb-8">
+    <div className="max-w-4xl mx-auto space-y-6 flex-1 min-h-0 overflow-y-auto pb-8 w-full">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>

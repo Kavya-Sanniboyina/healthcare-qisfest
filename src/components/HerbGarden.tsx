@@ -21,11 +21,11 @@ const HerbGarden = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
+    <div className="w-full space-y-8">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="font-display text-2xl text-foreground">Herb Garden</h1>
-          <p className="text-sm text-muted-foreground">Interactive 3D Exploration & AR Identification</p>
+          <h1 className="font-display text-3xl text-foreground">Herb Garden</h1>
+          <p className="text-muted-foreground">Interactive 3D Exploration & AR Identification</p>
         </div>
       </div>
 
@@ -34,49 +34,52 @@ const HerbGarden = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="glass-card rounded-2xl mb-8 overflow-hidden"
+          className="glass-card rounded-3xl mb-8 overflow-hidden"
         >
-          <div className="h-64 bg-gradient-to-br from-herbal-dark to-herbal relative flex items-center justify-center">
+          <div className="h-[400px] bg-gradient-to-br from-herbal-dark to-herbal relative flex items-center justify-center">
             <motion.div
               animate={{
                 rotate: [0, 5, -5, 0],
                 y: [0, -10, 0]
               }}
               transition={{ duration: 4, repeat: Infinity }}
-              className="text-8xl"
+              className="text-9xl filter drop-shadow-2xl"
             >
               🌿
             </motion.div>
-            <div className="absolute bottom-4 left-4 right-4 glass-card p-3 rounded-xl">
-              <p className="text-sm text-center text-warm-white">
-                🔮 3D Interactive Garden • Tap herbs to explore
-              </p>
+            <div className="absolute bottom-8 left-0 right-0 flex justify-center">
+              <div className="glass-card px-6 py-3 rounded-full flex items-center gap-3">
+                <span className="animate-pulse bg-green-500 w-2 h-2 rounded-full"></span>
+                <p className="text-sm font-medium text-warm-white">
+                  3D Interactive Garden Active
+                </p>
+              </div>
             </div>
           </div>
         </motion.div>
 
-        {/* Search & AR */}
+        {/* Search & AR - Full Width */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="flex gap-4 mb-8"
+          className="flex flex-col md:flex-row gap-6 mb-8"
         >
-          <div className="flex-1 glass-card rounded-xl flex items-center gap-3 px-4">
-            <Search className="w-5 h-5 text-muted-foreground" />
+          <div className="flex-1 glass-card rounded-2xl flex items-center gap-4 px-6 py-2">
+            <Search className="w-6 h-6 text-muted-foreground" />
             <input
               type="text"
-              placeholder="Search herbs..."
-              className="flex-1 py-3 bg-transparent border-none outline-none text-foreground"
+              placeholder="Search medicinal herbs..."
+              className="flex-1 py-4 bg-transparent border-none outline-none text-foreground text-lg placeholder:text-muted-foreground/50"
             />
           </div>
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="glass-card p-3 rounded-xl flex items-center gap-2"
+            className="glass-card p-4 rounded-2xl flex items-center justify-center gap-3 min-w-[200px] hover:bg-herbal/10 transition-colors"
           >
-            <Camera className="w-5 h-5 text-herbal" />
-            <span className="text-sm font-medium text-foreground hidden sm:inline">AR Identify</span>
+            <Camera className="w-6 h-6 text-herbal" />
+            <span className="font-bold text-foreground">AR Identify</span>
           </motion.button>
         </motion.div>
 
@@ -86,43 +89,32 @@ const HerbGarden = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
         >
-          <h3 className="font-display text-lg text-foreground mb-4">Sacred Herbs</h3>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="font-display text-xl text-foreground">Sacred Herbs Library</h3>
+            <button className="text-primary hover:underline">View All</button>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
             {herbs.map((herb, i) => (
               <motion.button
                 key={herb.name}
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.3 + i * 0.05 }}
-                whileHover={{ scale: 1.03, y: -4 }}
+                whileHover={{ scale: 1.05, y: -5 }}
                 whileTap={{ scale: 0.98 }}
-                className="glass-card-hover p-4 rounded-2xl text-left group"
+                className="glass-card-hover p-6 rounded-2xl text-left group h-full flex flex-col"
               >
-                <div className="flex items-start justify-between mb-3">
-                  <span className="text-3xl">{herb.emoji}</span>
-                  <Info className="w-4 h-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+                <div className="flex items-start justify-between mb-4">
+                  <span className="text-4xl">{herb.emoji}</span>
+                  <Info className="w-5 h-5 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
                 </div>
-                <h4 className="font-medium text-foreground">{herb.name}</h4>
-                <p className="text-xs text-herbal font-sacred">{herb.sanskrit}</p>
-                <p className="text-xs text-muted-foreground mt-1">{herb.benefit}</p>
+                <h4 className="font-bold text-lg text-foreground mb-1">{herb.name}</h4>
+                <p className="text-xs text-herbal font-sacred mb-2 bg-herbal/10 self-start px-2 py-1 rounded">{herb.sanskrit}</p>
+                <p className="text-sm text-muted-foreground mt-auto line-clamp-2">{herb.benefit}</p>
               </motion.button>
             ))}
           </div>
-        </motion.div>
-
-        {/* Coming Soon */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-          className="mt-8 glass-card p-6 rounded-2xl text-center"
-        >
-          <Leaf className="w-8 h-8 text-herbal mx-auto mb-3" />
-          <h4 className="font-display text-lg text-foreground mb-2">Coming Soon</h4>
-          <p className="text-sm text-muted-foreground">
-            Full 3D garden with Three.js visualization, AR herb identification,
-            and interactive growing guides.
-          </p>
         </motion.div>
       </div>
     </div>
